@@ -1,58 +1,76 @@
 # Deployment Guide
 
-## GitHub Pages Setup
+## How It Works
 
-### Initial Setup (One Time)
+All deployments go through a single `gh-pages` branch. When you push to `main`, the reference site deploys to the root. When you push to a client branch (`client-*` or `daly`), the client preview deploys to `/branches/{name}/`. When a PR is closed, the preview is automatically deleted.
 
-1. **Enable GitHub Pages in your repository:**
-   - Go to Settings → Pages
-   - Under "Build and deployment", select "GitHub Actions" as the source
-   - No other configuration needed - the workflow handles everything
+## Setup (One-Time)
 
-2. **PR previews are automatic:**
-   - Uses GitHub Pages environments
-   - Each PR gets its own preview deployment
-   - No additional setup required
+### 1. GitHub Pages Source
 
-### Deployment Flow
+Go to **Settings > Pages > Build and deployment > Source** and select:
+- **Deploy from a branch**
+- Branch: `gh-pages`
+- Folder: `/ (root)`
+- Click Save
+
+### 2. Actions Permissions
+
+Go to **Settings > Actions > General > Workflow permissions** and select:
+- **Read and write permissions**
+
+### 3. Branch Protection
+
+Do **not** add branch protection to `gh-pages`. The workflow needs to push to it using the default `GITHUB_TOKEN`.
 
 ## Production Deployment (Main Branch)
 
-When you push to `main`:
-1. GitHub Actions automatically builds the site
-2. Deploys to GitHub Pages
-3. Available at: `https://[username].github.io/[repo-name]/`
+Push to `main` and the workflow automatically:
+1. Builds the reference site
+2. Deploys to the root of `gh-pages`
+3. Available at: `https://yohdev.github.io/yd-website-playbook/`
 
 ```bash
-# Deploy to production
+git checkout main
 git add .
-git commit -m "Deploy client deliverables"
+git commit -m "Update reference site"
 git push origin main
 ```
 
-## Preview Deployment (Pull Requests)
+## Client Preview Deployment
 
-When you open a PR:
-1. GitHub Actions builds a preview
-2. Deploys to GitHub Pages environment
-3. Comments on PR with preview link
-4. Updates on each new commit
+Push to a client branch and the workflow automatically:
+1. Builds the client playbook
+2. Deploys to `gh-pages/branches/{branch-name}/`
+3. Available at: `https://yohdev.github.io/yd-website-playbook/branches/{branch-name}/`
 
 ```bash
-# Create a feature branch
-git checkout -b client-name-refresh
-
-# Make changes and push
+git checkout -b client-acme
+# ... generate playbook ...
 git add .
-git commit -m "Add client deliverables"
-git push origin client-name-refresh
-
-# Open PR on GitHub - preview link appears in comments
+git commit -m "Add Acme Corp playbook"
+git push -u origin client-acme
 ```
+
+## PR Workflow
+
+When you open a PR from a client branch:
+1. The workflow builds and deploys the preview
+2. A bot comments on the PR with the live preview URL
+3. Each new push updates the preview and the comment
+4. When the PR is closed (merged or not), the preview is automatically deleted and a cleanup comment confirms it
+
+## Branch Naming
+
+The workflow recognizes these as client branches:
+- `client-*` (preferred for new clients)
+- `daly` (legacy, explicitly listed)
+
+Any other branch (besides `main`) is ignored by the deployment workflow.
 
 ## Local Testing
 
-Test the build locally before deploying:
+Build and preview locally before pushing:
 
 ```bash
 # Build the site
@@ -60,108 +78,47 @@ npm run build
 
 # Serve locally at http://localhost:8000
 npm run serve
-
-# Manual preview deployment (optional)
-npm run deploy:preview
 ```
 
-## Build Logic
+## Cleanup
 
-The build system is smart about what to deploy:
+### Automatic
 
-1. **With Client Deliverables** (in `output/` folder):
-   - Deploys Homepage.html as index
-   - Includes Style Guide and Playbook
-   - Copies all assets and theme files
+Closing a PR automatically removes its preview from `gh-pages`.
 
-2. **Without Client Deliverables** (reference only):
-   - Deploys reference implementation
-   - Uses home-page.html as index
-   - Includes reference style guide and playbook
+### Manual
 
-3. **Empty State**:
-   - Shows instructions to run the skill
+If you need to clean up a preview without a PR:
 
-## File Structure
-
-### Source Files
+```bash
+git checkout gh-pages
+rm -rf branches/{branch-name}
+git add -A
+git commit -m "Remove preview for {branch-name}"
+git push origin gh-pages
 ```
-├── output/                  # Client deliverables (if generated)
-│   ├── Homepage.html
-│   ├── Style Guide.html
-│   └── Playbook.html
-├── home-page.html          # Reference implementation
-├── style-guide.html
-└── play-book.html
-```
-
-### After Build
-```
-dist/
-├── index.html              # Homepage (client or reference)
-├── style-guide.html
-├── playbook.html
-├── assets/                 # Images, fonts, etc.
-├── docs/                   # Documentation
-└── .nojekyll              # Disable Jekyll processing
-```
-
-## Workflow Configuration
-
-The GitHub Actions workflow (`.github/workflows/deploy.yml`) handles:
-
-- **Main branch**: Deploy to GitHub Pages
-- **Pull requests**: Deploy preview to GitHub Pages environments
-- **Smart building**: Detects client vs reference content
-- **PR comments**: Automatic preview links
 
 ## Troubleshooting
 
-### GitHub Pages not working
-- Check Settings → Pages → Source is "GitHub Actions"
-- Verify workflow has `pages: write` permission
-- Check Actions tab for build errors
+### Preview not deploying
+- Check that Pages source is set to "Deploy from a branch: gh-pages"
+- Check that Actions permissions are "Read and write"
+- Check that `gh-pages` has no branch protection rules
+- Check the Actions tab for workflow run errors
 
-### PR preview not working
-- Check GitHub Pages is enabled in repository settings
-- Verify workflow has proper permissions
-- Check Actions logs for deployment errors
-- Ensure PR preview environment is created
-
-### Build failing
-- Run `npm run build` locally to test
-- Check for missing files in output/
-- Verify HTML files are valid
-
-### Wrong content deployed
+### Wrong content showing
 - Clear browser cache
-- Check which branch is deployed
-- Verify output/ folder contents
+- Wait 1-2 minutes for GitHub Pages to propagate
+- Check the Actions run log to confirm which files were deployed
 
-## Custom Domain (Optional)
+### gh-pages branch doesn't exist
+The workflow creates it automatically on the first run. If it fails, create it manually:
 
-To use a custom domain with GitHub Pages:
-
-1. Add domain in Settings → Pages → Custom domain
-2. Create `CNAME` file in root with your domain:
-   ```
-   client.yohdev.com
-   ```
-3. Configure DNS:
-   - A records: `185.199.108-111.153`
-   - CNAME: `[username].github.io`
-
-## Security Notes
-
-- Never commit sensitive client data
-- Use environment variables for API keys
-- Use GitHub's built-in deployment environments
-- Review PR previews before sharing
-
-## Monitoring
-
-Track deployments:
-- **GitHub Pages**: Check Settings → Pages for status
-- **Actions**: Monitor workflow runs in Actions tab
-- **Preview links**: Find in PR comments
-- **Build artifacts**: Download from Actions runs
+```bash
+git checkout --orphan gh-pages
+git rm -rf .
+touch .nojekyll
+git add .nojekyll
+git commit -m "Initialize gh-pages"
+git push origin gh-pages
+```
