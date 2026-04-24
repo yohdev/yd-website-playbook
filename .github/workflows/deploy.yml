@@ -140,8 +140,6 @@ jobs:
     if: github.event_name == 'push' && (startsWith(github.ref, 'refs/heads/client-') || github.ref == 'refs/heads/daly')
     needs: build
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
     permissions:
       contents: write
       pages: write
