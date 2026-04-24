@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Daly Orthodontics — Website Playbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --daly-green:#1C3A27;
+    --daly-green-deep:#122619;
+    --daly-gold:#C9A633;
+    --daly-gold-deep:#A8871F;
+    --daly-gold-soft:#E4CB73;
+    --obsidian:#0B0B0B;
+    --ink:#1A1A1A;
+    --ink-2:#3A3A3A;
+    --ink-3:#6B6B6B;
+    --line:#E4DECB;
+    --cream:#F2EADB;
+    --cream-soft:#F7F1E4;
+    --paper:#FFFFFF;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--paper);color:var(--ink);
+    font-family:"Inter",system-ui,sans-serif;font-size:17px;line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4,h5{font-family:"Fraunces",Georgia,serif;font-weight:500;letter-spacing:-0.015em;margin:0;color:var(--ink)}
+  p{margin:0 0 1em 0;color:var(--ink-2);max-width:68ch}
+  a{color:var(--daly-green);text-decoration:none;border-bottom:1px solid var(--daly-gold)}
+  a:hover{color:var(--daly-gold-deep)}
+  code,.mono{font-family:ui-monospace,monospace;font-size:14px;background:var(--cream-soft);padding:2px 8px;border-radius:4px;color:var(--daly-green-deep);border:1px solid var(--line)}
+  .container{max-width:920px;margin:0 auto;padding:0 48px}
+  @media (max-width:720px){.container{padding:0 20px}}
+
+  /* Cover */
+  .cover{
+    background:var(--daly-green);
+    color:var(--cream);
+    padding:120px 0 96px;
+    position:relative;overflow:hidden;
+    border-bottom:4px solid var(--daly-gold);
+  }
+  .cover:before{
+    content:"";
+    position:absolute;
+    top:-30%;right:-10%;width:60%;height:140%;
+    background:radial-gradient(ellipse at center, rgba(201,166,51,0.12) 0%, transparent 60%);
+    pointer-events:none;
+  }
+  .cover .eyebrow{
+    font-family:"Inter",sans-serif;font-size:12px;font-weight:500;letter-spacing:0.16em;
+    text-transform:uppercase;color:var(--daly-gold-soft);margin-bottom:24px;display:inline-block;
+  }
+  .cover h1{
+    color:var(--cream);font-size:80px;line-height:1.02;font-weight:500;
+    letter-spacing:-0.03em;margin-bottom:24px;max-width:16ch;
+  }
+  .cover h1 em{font-style:italic;color:var(--daly-gold-soft);font-weight:400}
+  .cover .lede{
+    font-family:"Inter",sans-serif;font-size:20px;color:rgba(242,234,219,0.85);
+    max-width:56ch;margin:0 0 56px 0;line-height:1.55;
+  }
+  .cover .meta{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:32px;
+    padding-top:40px;border-top:1px solid rgba(242,234,219,0.2);
+    max-width:720px;
+  }
+  .cover .meta-item{font-size:14px;color:rgba(242,234,219,0.72)}
+  .cover .meta-item strong{
+    display:block;color:var(--daly-gold-soft);font-weight:600;
+    font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
+    margin-bottom:6px;font-family:"Inter",sans-serif;
+  }
+  @media (max-width:720px){
+    .cover{padding:80px 0 64px}
+    .cover h1{font-size:44px}
+    .cover .meta{grid-template-columns:1fr 1fr;gap:24px}
+  }
+
+  /* TOC */
+  .toc{
+    background:var(--cream-soft);border:1px solid var(--line);border-radius:12px;
+    padding:32px 40px;margin:64px auto;max-width:920px;
+  }
+  .toc h3{
+    font-family:"Inter",sans-serif;font-size:12px;font-weight:600;
+    letter-spacing:0.14em;text-transform:uppercase;
+    color:var(--daly-gold-deep);margin-bottom:20px;
+  }
+  .toc ol{margin:0;padding:0;list-style:none}
+  .toc li{padding:8px 0;border-bottom:1px dashed var(--line)}
+  .toc li:last-child{border-bottom:none}
+  .toc a{
+    display:flex;justify-content:space-between;align-items:baseline;gap:16px;
+    font-family:"Inter",sans-serif;font-size:16px;font-weight:500;
+    color:var(--ink);border:none;
+  }
+  .toc a:hover{color:var(--daly-green)}
+  .toc .num{color:var(--daly-gold-deep);font-family:"Fraunces",serif;font-style:italic;font-weight:500;font-size:15px}
+  .toc .page{color:var(--ink-3);font-family:ui-monospace,monospace;font-size:13px}
+
+  /* Section */
+  section.block{padding:80px 0;border-bottom:1px solid var(--line)}
+  section.block:last-child{border-bottom:none}
+  .phase-head{margin-bottom:48px}
+  .phase-label{
+    font-family:"Fraunces",serif;font-size:14px;font-style:italic;
+    color:var(--daly-gold-deep);letter-spacing:0.04em;
+    display:block;margin-bottom:8px;font-weight:500;
+  }
+  section.block h2{font-size:48px;line-height:1.08;margin-bottom:16px;letter-spacing:-0.02em}
+  section.block .summary{
+    font-size:20px;color:var(--ink-2);max-width:56ch;line-height:1.55;
+    font-family:"Inter",sans-serif;
+  }
+  h3.sub{font-size:24px;color:var(--daly-green);margin:48px 0 16px;font-weight:600}
+  h4.sub{font-size:19px;color:var(--daly-green);margin:32px 0 12px;font-weight:600}
+
+  /* Two-column fact list */
+  .facts{display:grid;grid-template-columns:200px 1fr;gap:12px 32px;margin:24px 0 0}
+  .facts dt{
+    font-family:"Inter",sans-serif;font-size:13px;font-weight:600;
+    letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--daly-gold-deep);
+    padding-top:2px;
+  }
+  .facts dd{margin:0;color:var(--ink-2)}
+  @media (max-width:720px){.facts{grid-template-columns:1fr;gap:4px 0}.facts dd{margin-bottom:16px}}
+
+  /* Deliverable callout */
+  .callout{
+    background:var(--cream-soft);border:1px solid var(--line);border-left:4px solid var(--daly-gold);
+    padding:24px 32px;border-radius:8px;margin:32px 0;
+  }
+  .callout .label{
+    font-family:"Inter",sans-serif;font-size:11px;font-weight:600;letter-spacing:0.14em;
+    text-transform:uppercase;color:var(--daly-gold-deep);
+    margin-bottom:8px;display:block;
+  }
+  .callout p{margin:0;color:var(--ink)}
+
+  .callout-green{
+    background:var(--daly-green);border:none;border-radius:12px;
+    padding:32px 40px;color:var(--cream);margin:40px 0;
+  }
+  .callout-green .label{color:var(--daly-gold-soft)}
+  .callout-green p,.callout-green li{color:rgba(242,234,219,0.88)}
+  .callout-green strong{color:var(--cream)}
+  .callout-green h4{color:var(--cream);margin:0 0 8px}
+
+  /* Phase grid */
+  .phase-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin:24px 0;
+  }
+  .phase-card{
+    background:var(--paper);border:1px solid var(--line);border-radius:12px;
+    padding:28px 28px 32px;transition:all 200ms;
+  }
+  .phase-card:hover{border-color:var(--daly-gold);transform:translateY(-2px)}
+  .phase-card .num{
+    font-family:"Fraunces",serif;font-size:36px;font-style:italic;font-weight:400;
+    color:var(--daly-gold);line-height:1;margin-bottom:16px;display:block;
+  }
+  .phase-card h4{font-size:20px;color:var(--daly-green);margin:0 0 8px;font-weight:600}
+  .phase-card p{font-size:14px;color:var(--ink-2);margin:0;line-height:1.55}
+  @media (max-width:900px){.phase-grid{grid-template-columns:1fr;gap:16px}}
+
+  /* Timeline */
+  .timeline{
+    position:relative;margin:48px 0;padding-left:32px;
+    border-left:2px solid var(--line);
+  }
+  .timeline-row{position:relative;padding-bottom:40px}
+  .timeline-row:last-child{padding-bottom:0}
+  .timeline-row:before{
+    content:"";position:absolute;left:-40px;top:6px;
+    width:12px;height:12px;border-radius:50%;
+    background:var(--daly-gold);border:3px solid var(--paper);
+    box-shadow:0 0 0 1px var(--daly-gold);
+  }
+  .timeline-row .when{
+    font-family:"Inter",sans-serif;font-size:12px;font-weight:600;letter-spacing:0.12em;
+    text-transform:uppercase;color:var(--daly-gold-deep);margin-bottom:4px;
+  }
+  .timeline-row h4{font-size:20px;color:var(--daly-green);margin:0 0 8px;font-weight:600}
+  .timeline-row p{margin:0;color:var(--ink-2);font-size:16px}
+
+  /* Metric tile */
+  .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:24px 0}
+  .metric{
+    background:var(--cream-soft);border:1px solid var(--line);border-radius:12px;
+    padding:24px;
+  }
+  .metric .val{
+    font-family:"Fraunces",serif;font-size:40px;font-weight:500;line-height:1.05;
+    color:var(--daly-green);margin:0 0 8px;
+  }
+  .metric .lbl{
+    font-family:"Inter",sans-serif;font-size:13px;color:var(--ink-2);
+    line-height:1.45;
+  }
+  @media (max-width:900px){.metrics{grid-template-columns:1fr 1fr}}
+
+  /* File tree */
+  .tree{
+    background:var(--obsidian);color:rgba(242,234,219,0.88);
+    border-radius:12px;padding:28px 32px;font-family:ui-monospace,monospace;
+    font-size:13px;line-height:1.7;margin:24px 0;white-space:pre;overflow-x:auto;
+  }
+  .tree .c{color:rgba(242,234,219,0.45);font-style:italic}
+  .tree .g{color:var(--daly-gold-soft)}
+
+  /* Pull quote */
+  blockquote.pull{
+    font-family:"Fraunces",serif;font-size:28px;line-height:1.35;font-weight:400;
+    font-style:italic;color:var(--daly-green);
+    padding-left:24px;border-left:3px solid var(--daly-gold);
+    margin:40px 0;letter-spacing:-0.01em;
+  }
+  blockquote.pull cite{
+    display:block;margin-top:16px;font-family:"Inter",sans-serif;font-size:13px;
+    font-style:normal;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--ink-3);
+  }
+
+  /* List style */
+  ul.clean,ol.clean{margin:16px 0 16px 0;padding-left:24px;color:var(--ink-2)}
+  ul.clean li,ol.clean li{margin-bottom:8px}
+  ul.clean li::marker{color:var(--daly-gold)}
+
+  /* Footer */
+  .foot{
+    background:var(--obsidian);color:var(--cream-soft);
+    padding:64px 0 32px;font-size:14px;margin-top:64px;
+  }
+  .foot h5{
+    font-family:"Inter",sans-serif;font-size:11px;font-weight:600;
+    letter-spacing:0.14em;text-transform:uppercase;color:var(--daly-gold);
+    margin:0 0 16px;
+  }
+  .foot p{color:rgba(242,234,219,0.7);margin:0 0 8px}
+  .foot .signoff{
+    display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;
+    padding-top:32px;margin-top:40px;border-top:1px solid rgba(242,234,219,0.12);
+    font-size:12px;color:rgba(242,234,219,0.5);
+  }
+  .foot a{color:var(--daly-gold);border:none}
+
+  /* Print */
+  @media print{
+    .cover{background:var(--paper);color:var(--ink);page-break-after:always}
+    .cover h1,.cover .lede,.cover .eyebrow,.cover .meta strong,.cover .meta-item{color:var(--ink)}
+    .cover:before{display:none}
+    section.block{page-break-inside:avoid}
+    .tree{background:var(--cream-soft);color:var(--ink);border:1px solid var(--line)}
+    .foot{display:none}
+    a{color:var(--ink);border:none;text-decoration:underline}
+  }
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <div class="container">
+    <span class="eyebrow">Website Playbook · M2</span>
+    <h1>From Pearl Sites to <em>a practice that looks like yours.</em></h1>
+    <p class="lede">This is the work we'll do together to retire the Pearl Sites template and replace it with a WordPress site Daly Orthodontics owns — and a brand expression that finally matches the logo on the front door.</p>
+    <div class="meta">
+      <div class="meta-item"><strong>Prepared for</strong>Victor &amp; Dr. Daly<br>Daly Orthodontics</div>
+      <div class="meta-item"><strong>Prepared by</strong>Andrew Hewitt<br>YohDev</div>
+      <div class="meta-item"><strong>Version</strong>1.0<br>2026-04-24</div>
+      <div class="meta-item"><strong>Reading time</strong>~10 min</div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <nav class="toc" aria-label="Contents">
+    <h3>Contents</h3>
+    <ol>
+      <li><a href="#overview"><span><span class="num">01.</span> The overview</span><span class="page">The 30-second version</span></a></li>
+      <li><a href="#why"><span><span class="num">02.</span> Why we're doing this</span><span class="page">Ownership &amp; signal</span></a></li>
+      <li><a href="#milestones"><span><span class="num">03.</span> Two milestones, two bets</span><span class="page">M1 &amp; M2</span></a></li>
+      <li><a href="#phases"><span><span class="num">04.</span> The six phases</span><span class="page">How we work</span></a></li>
+      <li><a href="#timeline"><span><span class="num">05.</span> Timeline</span><span class="page">Key dates</span></a></li>
+      <li><a href="#deliverables"><span><span class="num">06.</span> What you'll have</span><span class="page">Final package</span></a></li>
+      <li><a href="#success"><span><span class="num">07.</span> How we'll know it worked</span><span class="page">Success metrics</span></a></li>
+      <li><a href="#roles"><span><span class="num">08.</span> Who does what</span><span class="page">Working together</span></a></li>
+      <li><a href="#next"><span><span class="num">09.</span> What's next</span><span class="page">After this call</span></a></li>
+    </ol>
+  </nav>
+
+  <section class="block" id="overview">
+    <div class="phase-head">
+      <span class="phase-label">Section 01</span>
+      <h2>The overview.</h2>
+      <p class="summary">In one paragraph: we lift Daly Orthodontics off Pearl Sites and onto a WordPress site you fully own before your June 2026 billing cutoff. Then we rebuild the brand expression around the logo and colors you already like — new typography, new voice, new imagery, new UX — without touching the mark itself. Two projects. Two timelines. One team, one playbook.</p>
+    </div>
+
+    <blockquote class="pull">
+      "I just want to own my own stuff. I don't want to have to go through someone every time I want to change something on my own website."
+      <cite>— Victor, Discovery Call, 2026-04-21</cite>
+    </blockquote>
+
+    <p>That sentence is the whole reason this project exists. The rest of this document is how we deliver on it.</p>
+  </section>
+
+  <section class="block" id="why">
+    <div class="phase-head">
+      <span class="phase-label">Section 02</span>
+      <h2>Why we're doing this.</h2>
+      <p class="summary">The current site has two real problems and one perceived one. Naming them honestly here means we can scope against them directly.</p>
+    </div>
+
+    <h3 class="sub">Problem 1 — You don't own your website.</h3>
+    <p>Pearl Sites owns the platform, the content management, the page structure, and — most importantly — your ability to make changes without paying for them. Every time you need a new page, you pay. Every time the nav needs a tweak, you pay. That is not a vendor relationship; that is a tollbooth.</p>
+
+    <h3 class="sub">Problem 2 — The blog is working against you.</h3>
+    <p>Pearl Sites publishes generic dental content on your site to boost their SEO metrics across their client base. For a general-dental practice, that's mostly harmless. For an orthodontics-only specialty practice, it's actively hostile — it attracts the wrong patients, wastes ad spend, and (in at least one published post) has literally told readers not to visit an orthodontist. This is the harder problem, and it's invisible until you see the Google Ads negative-keyword list you've had to build.</p>
+
+    <h3 class="sub">The perceived problem — "it looks dated."</h3>
+    <p>It doesn't, exactly. Your logo is strong. Your palette (deep green, warm gold) is strong. What's dated is the <em>expression</em> of the brand — the stock hero photo, the mustard-yellow accents that don't match the logo's gold, the crowded mobile nav, the four competing scheduling widgets. The brand has never been allowed to speak in its own voice. Milestone 2 is where we fix that.</p>
+
+    <div class="callout-green">
+      <span class="label">In other words</span>
+      <p>The logo Daly Orthodontics commissioned is a premium, considered, serious piece of design. The site wrapped around it is a template. Milestone 1 gets you off the template. Milestone 2 lets the logo finally breathe.</p>
+    </div>
+  </section>
+
+  <section class="block" id="milestones">
+    <div class="phase-head">
+      <span class="phase-label">Section 03</span>
+      <h2>Two milestones, two bets.</h2>
+      <p class="summary">We separate these deliberately. M1 is the forced move — the deadline is real. M2 is the optional move — the upside is real. You can sign M1 without committing to M2. You can sign them together. What you can't do is combine them, because the timeline won't permit it.</p>
+    </div>
+
+    <h3 class="sub">Milestone 1 — Lift &amp; shift</h3>
+    <dl class="facts">
+      <dt>Goal</dt><dd>Site lives on WordPress, under your ownership, before June 2026.</dd>
+      <dt>Scope</dt><dd>One-for-one migration of existing pages, content, and URLs. Blog content triage. Mobile nav cleanup. Native WordPress blocks — no third-party page builders.</dd>
+      <dt>Not in scope</dt><dd>New branding, new copy, new photography, new visual design.</dd>
+      <dt>Timeline</dt><dd>~6 weeks. Must complete before the June Pearl Sites billing date.</dd>
+      <dt>The bet</dt><dd>You get ownership, a clean exit, and no SEO damage. The site still looks like the site looks today — just rebuilt on your infrastructure.</dd>
+    </dl>
+
+    <h3 class="sub">Milestone 2 — Brand-forward redesign</h3>
+    <dl class="facts">
+      <dt>Goal</dt><dd>The site finally looks and reads like the logo promises.</dd>
+      <dt>Scope</dt><dd>New typography system (Fraunces + Inter). New voice. New homepage structure. New photography direction. Style guide and WordPress theme.json. Everything in this document, in other words.</dd>
+      <dt>Kept</dt><dd>Logo primary mark. Deep green + warm gold palette. URL structure (SEO equity preserved from M1).</dd>
+      <dt>Timeline</dt><dd>~8 weeks, scheduled after M1 go-live. No forced deadline.</dd>
+      <dt>The bet</dt><dd>The brand expression catches up with the mark. First-time visitors can tell in five seconds that this is an orthodontics specialist in Burlington — and they want to book.</dd>
+    </dl>
+
+    <div class="callout">
+      <span class="label">On paying twice</span>
+      <p>You raised this on the discovery call, and it's a fair concern. The answer: M1 is the price of <strong>ownership</strong>, not the price of delay. You would pay for this work whether M2 existed or not. M2 is additive, and it builds directly on M1's foundation — the URLs, content, hosting, and CMS setup all carry forward unchanged. There is no rework between the two.</p>
+    </div>
+  </section>
+
+  <section class="block" id="phases">
+    <div class="phase-head">
+      <span class="phase-label">Section 04</span>
+      <h2>The six phases.</h2>
+      <p class="summary">Every YohDev project runs through the same six phases. Each one has a tangible deliverable and an explicit approval gate before we move to the next. You never wonder what we're doing or why.</p>
+    </div>
+
+    <div class="phase-grid">
+      <div class="phase-card">
+        <span class="num">01</span>
+        <h4>Intake</h4>
+        <p>Read the handoff, ask the canonical questions, document decisions. You approve the intake summary before we spend any time building.</p>
+      </div>
+      <div class="phase-card">
+        <span class="num">02</span>
+        <h4>Research</h4>
+        <p>Crawl the current site, audit the blog, screenshot the competition. You see what's there before we decide what to keep.</p>
+      </div>
+      <div class="phase-card">
+        <span class="num">03</span>
+        <h4>System</h4>
+        <p>Lock design tokens — color, type, spacing. This is where the new voice starts to feel real.</p>
+      </div>
+      <div class="phase-card">
+        <span class="num">04</span>
+        <h4>Homepage</h4>
+        <p>Build one page to high fidelity. The bet is that if the homepage lands, the rest of the site has a clear template to follow.</p>
+      </div>
+      <div class="phase-card">
+        <span class="num">05</span>
+        <h4>Style guide</h4>
+        <p>Document the components so your site can grow beyond the homepage without you calling us every time.</p>
+      </div>
+      <div class="phase-card">
+        <span class="num">06</span>
+        <h4>Package</h4>
+        <p>Assemble the final deliverable, write the deployment README, archive the source handoff. You can walk away with the whole thing in a folder.</p>
+      </div>
+    </div>
+
+    <div class="callout-green">
+      <span class="label">A note on approvals</span>
+      <p>We don't move to the next phase without you signing off on the current one. That's not a formality — it's how we keep scope, timeline, and budget honest. If something changes direction at Phase 3, the cost of fixing it there is a fraction of what it would be at Phase 5.</p>
+    </div>
+  </section>
+
+  <section class="block" id="timeline">
+    <div class="phase-head">
+      <span class="phase-label">Section 05</span>
+      <h2>Timeline.</h2>
+      <p class="summary">Key dates for M1 and the handoff to M2. M2's internal dates move based on when M1 wraps and when you'd like to start.</p>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-row">
+        <div class="when">Week 0 · Now</div>
+        <h4>Discovery &amp; intake complete</h4>
+        <p>This document is the end of intake. Next action is your decision on whether to sign M1, M2, or both — and the answers to the handful of Friday-call questions.</p>
+      </div>
+      <div class="timeline-row">
+        <div class="when">Week 1–2 · May 2026</div>
+        <h4>M1 Phase 02–03 · Research &amp; System</h4>
+        <p>Site crawl, blog triage list, WordPress environment provisioned, tokens locked. Bi-weekly screen-share check-in at the end of week 2.</p>
+      </div>
+      <div class="timeline-row">
+        <div class="when">Week 3–5 · May 2026</div>
+        <h4>M1 Phase 04–05 · Migration &amp; QA</h4>
+        <p>Pages migrate one-for-one. Mobile nav cleanup. URL redirects tested. SEO equity verified page-by-page against the pre-migration scan.</p>
+      </div>
+      <div class="timeline-row">
+        <div class="when">Week 6 · Late May 2026</div>
+        <h4>M1 Phase 06 · Go-live</h4>
+        <p>Site flips to WordPress. Pearl Sites can be cancelled the same day. You hold the keys.</p>
+      </div>
+      <div class="timeline-row">
+        <div class="when">Week 7+ · Summer 2026</div>
+        <h4>M2 · Brand-forward redesign (if greenlit)</h4>
+        <p>Roughly 8 weeks across research, system, homepage build, style guide, component library, and content rollout. Scheduled at your pace, not the billing cycle's.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="deliverables">
+    <div class="phase-head">
+      <span class="phase-label">Section 06</span>
+      <h2>What you'll have.</h2>
+      <p class="summary">Every file, every asset. Nothing stays at YohDev. When this is over, you can fire us and hire anyone else to pick up where we left off — and they won't have to guess how it works.</p>
+    </div>
+
+    <div class="tree"><span class="c">// Final package — delivered as a folder you own</span>
+
+daly-orthodontics-website-refresh/
+├── <span class="g">Homepage.html</span>                <span class="c">// High-fidelity homepage mock (M2)</span>
+├── <span class="g">Style Guide.html</span>              <span class="c">// Component library, tokens, do/don't rules</span>
+├── <span class="g">Playbook.html</span>                 <span class="c">// This document</span>
+├── <span class="g">theme.json</span>                    <span class="c">// WordPress block theme config</span>
+├── assets/                      <span class="c">// Logos, fonts, photography</span>
+│   ├── logo-primary.svg
+│   ├── logo-mark.svg
+│   ├── logo-white.svg
+│   ├── fonts/                   <span class="c">// Self-hosted Fraunces + Inter</span>
+│   └── photography/             <span class="c">// Either new shoot or flagged placeholders</span>
+├── theme/                       <span class="c">// WordPress block theme files</span>
+│   ├── style.css
+│   ├── theme.json
+│   ├── templates/
+│   └── parts/
+├── brief/                       <span class="c">// Original sales handoff, archived</span>
+├── output/                      <span class="c">// Phase artifacts — every decision documented</span>
+│   ├── 01-intake-summary.md
+│   ├── 02-research.md
+│   ├── 03-system-tokens.md
+│   └── blog-triage.md           <span class="c">// Per-post migrate/redirect/delete decision</span>
+└── README.md                    <span class="c">// Deployment &amp; ownership instructions</span></div>
+
+    <div class="callout">
+      <span class="label">Ownership is literal</span>
+      <p>The folder above is a git repository. You hold the GitHub login. You hold the hosting account. You hold the domain registrar. Anything YohDev does going forward is optional — a maintenance retainer, a feature build, a second-opinion call. Never a gatekeeper.</p>
+    </div>
+  </section>
+
+  <section class="block" id="success">
+    <div class="phase-head">
+      <span class="phase-label">Section 07</span>
+      <h2>How we'll know it worked.</h2>
+      <p class="summary">Five concrete markers. If we hit all five, this was a good project. If we miss any of them, it's our problem, not yours.</p>
+    </div>
+
+    <div class="metrics">
+      <div class="metric">
+        <div class="val">Before June</div>
+        <div class="lbl">Site lives on WordPress. Pearl Sites cancellable.</div>
+      </div>
+      <div class="metric">
+        <div class="val">0</div>
+        <div class="lbl">Rankings lost on the top 20 keywords post-migration.</div>
+      </div>
+      <div class="metric">
+        <div class="val">&lt;10s</div>
+        <div class="lbl">Time for a new mobile visitor to find a scheduling path.</div>
+      </div>
+      <div class="metric">
+        <div class="val">100%</div>
+        <div class="lbl">Client ownership of domain, content, code, hosting.</div>
+      </div>
+    </div>
+
+    <h4 class="sub">Plus the soft one:</h4>
+    <p>You and Dr. Daly pull up the site on a phone, hand it to someone who's never heard of the practice, and they say: <em>"Oh — they're an orthodontist in Burlington."</em> Within five seconds, no prompting. That's the bar.</p>
+  </section>
+
+  <section class="block" id="roles">
+    <div class="phase-head">
+      <span class="phase-label">Section 08</span>
+      <h2>Who does what.</h2>
+      <p class="summary">A short list. Clarity here prevents most of the friction that happens in small-shop projects.</p>
+    </div>
+
+    <h3 class="sub">YohDev (Andrew Hewitt)</h3>
+    <ul class="clean">
+      <li>Design, build, and QA the site end-to-end.</li>
+      <li>Bi-weekly check-in meetings with screen share. You see work in progress, not just finished work.</li>
+      <li>Blog triage recommendations (per-post migrate / redirect / delete / rewrite).</li>
+      <li>SEO equity scan pre- and post-migration. Page-by-page rank comparison.</li>
+      <li>Deployment, DNS handoff, and a clean exit process documented in the README.</li>
+    </ul>
+
+    <h3 class="sub">Daly Orthodontics (Victor + Dr. Daly)</h3>
+    <ul class="clean">
+      <li>Approvals at each phase gate. Usually within 2–3 business days of a review.</li>
+      <li>Copy and content decisions on ambiguous blog posts (keep / noindex / delete).</li>
+      <li>If M2: either a half-day photography shoot or a decision to go typographic-first.</li>
+      <li>Access to existing accounts during migration: domain registrar, Google Business Profile, Google Analytics, Google Ads.</li>
+      <li>The final yes on launch timing. We don't flip the site live until you say flip it.</li>
+    </ul>
+
+    <h3 class="sub">Communication</h3>
+    <dl class="facts">
+      <dt>Email</dt><dd>Primary channel. andrew@yohdev.com → victordaniel16@gmail.com.</dd>
+      <dt>Meetings</dt><dd>Bi-weekly, 45 min, screen-share. Camera-on.</dd>
+      <dt>Response time</dt><dd>YohDev within one business day, usually same day for anything blocking.</dd>
+      <dt>Urgency</dt><dd>For blocking issues, text or call direct. No vendor-ticketing system.</dd>
+    </dl>
+  </section>
+
+  <section class="block" id="next">
+    <div class="phase-head">
+      <span class="phase-label">Section 09</span>
+      <h2>What's next.</h2>
+      <p class="summary">Concrete next steps. Ordered. Dated.</p>
+    </div>
+
+    <ol class="clean">
+      <li><strong>Friday follow-up call.</strong> We close the handful of open questions — Dr. Daly's first name and title, the <code>dailyorthodontics.com</code> vs. <code>dalyorthodontics.com</code> question, whether Patient Hub ports to WordPress, and your reaction to the homepage and style guide you're looking at now.</li>
+      <li><strong>Decision on M1 scope + quote.</strong> You'll have the M1 quote in front of you at the call (or, at the latest, the following business day). It's structured as a fixed price, not hourly.</li>
+      <li><strong>Decision on M2.</strong> You don't have to decide on M2 at the same time as M1. We'd rather you see the M1 work land well before you commit to M2 — and you're welcome to take the decision to any shop you want after M1 ships, now that you'll own everything.</li>
+      <li><strong>Kickoff.</strong> If you greenlight, we schedule a kickoff call the following week and start Phase 02 (Research) immediately. The clock starts ticking on the June deadline.</li>
+    </ol>
+
+    <div class="callout-green">
+      <span class="label">One ask</span>
+      <p>Before the Friday call, bring any reference websites you and Dr. Daly liked from the portfolio review — not to copy, but so we can point at specific elements and say <em>"this, but less of that."</em> Concrete reactions move faster than abstract adjectives.</p>
+    </div>
+  </section>
+
+</div>
+
+<footer class="foot">
+  <div class="container">
+    <h5>Prepared by</h5>
+    <p>Andrew Hewitt · YohDev · <a href="mailto:andrew@yohdev.com">andrew@yohdev.com</a></p>
+    <div class="signoff">
+      <span>© 2026 YohDev. Prepared for Daly Orthodontics — confidential.</span>
+      <span>Version 1.0 · 2026-04-24</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
