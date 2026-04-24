@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>AI-Assisted Website Refresh — YohDev Internal Playbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root{
+    /* Dark-mode rebuild — tokens remap to the dark aesthetic
+       --black / --white intentionally remapped so legacy rules flip. */
+    --black:#F5F7F7;
+    --ink:#F5F7F7;
+    --ink-2:#E6EAEA;
+    --teal:#00B4B4;
+    --teal-deep:#2DE0E0;
+    --teal-dark:#006E6E;
+    --teal-soft:rgba(0,180,180,0.12);
+    --g-100:#0F1417;
+    --g-200:rgba(255,255,255,0.06);
+    --g-300:rgba(255,255,255,0.12);
+    --g-400:rgba(245,247,247,0.42);
+    --g-500:rgba(245,247,247,0.55);
+    --g-600:rgba(245,247,247,0.70);
+    --g-700:rgba(245,247,247,0.82);
+    --g-800:#E6EAEA;
+    --g-900:#F5F7F7;
+    --white:#0A0E11;
+    --canvas:#05080A;
+    --surface:#0A0E11;
+    --line:rgba(255,255,255,0.08);
+    --true-black:#000000;
+  }
+  .tree{background:var(--true-black) !important; border:1px solid rgba(255,255,255,0.06)}
+  .toc{background:var(--true-black) !important}
+  .note .pill{background:var(--true-black) !important}
+  footer.foot{background:var(--true-black) !important}
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--canvas);color:var(--ink)}
+  body{font-family:"Roboto",sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,h4{font-family:"Poppins",sans-serif;font-weight:500;letter-spacing:-0.015em;margin:0;color:var(--black)}
+  a{color:var(--teal-deep);text-decoration:none}
+  code,.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12.5px;background:var(--g-100);padding:1px 6px;border-radius:4px;color:var(--ink-2)}
+  .container{max-width:1080px;margin:0 auto;padding:0 48px}
+  .eyebrow{font-family:"Poppins",sans-serif;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;font-weight:600;color:var(--teal-deep)}
+
+  /* Cover */
+  .cover{padding:96px 0 80px;border-bottom:1px solid var(--line);position:relative;overflow:hidden;background:var(--white)}
+  .cover .meta{display:grid;grid-template-columns:1.4fr 1fr;gap:60px;align-items:end}
+  .cover h1{font-size:84px;line-height:1;font-weight:600;letter-spacing:-0.035em;margin-top:20px;color:var(--black)}
+  .cover h1 span.tag{color:var(--teal);font-family:"JetBrains Mono",monospace;font-weight:500;font-size:72px}
+  .cover .sub{font-family:"Roboto",sans-serif;font-size:17px;color:var(--g-600);max-width:360px;line-height:1.6}
+  .cover .motif{position:absolute;top:60px;right:-60px;opacity:0.06;pointer-events:none;font-family:"JetBrains Mono",monospace;font-size:560px;line-height:1;font-weight:500;color:var(--black)}
+
+  /* Section scaffold */
+  section.phase{padding:88px 0;border-bottom:1px solid var(--line)}
+  section.phase .head{display:grid;grid-template-columns:200px 1fr;gap:60px;margin-bottom:40px;align-items:baseline}
+  section.phase .num{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--teal-deep);letter-spacing:0.05em}
+  section.phase h2{font-size:42px;line-height:1.2;font-weight:600;letter-spacing:-0.02em;color:var(--black)}
+  section.phase h2 span.acc{color:var(--teal-deep)}
+  section.phase .intro{font-family:"Roboto",sans-serif;font-size:16.5px;color:var(--g-700);max-width:640px;margin-top:32px;line-height:1.65}
+
+  h3.block-h{font-size:22px;margin:36px 0 14px;letter-spacing:-0.01em;font-weight:600}
+  h4.sub-h{font-family:"Poppins",sans-serif;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal-deep);font-weight:700;margin:24px 0 10px}
+
+  ul.clean{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
+  ul.clean li{padding:14px 18px;background:var(--white);border:1px solid var(--line);border-radius:8px;display:flex;gap:14px;align-items:flex-start;font-size:15px}
+  ul.clean li::before{content:"";width:6px;height:6px;border-radius:2px;background:var(--teal);margin-top:9px;flex-shrink:0}
+  ul.clean li b{color:var(--black);font-weight:600;margin-right:6px;font-family:"JetBrains Mono",monospace;font-size:13px}
+
+  /* TOC */
+  .toc{background:var(--black);color:var(--white);border-radius:12px;padding:32px 36px;margin-top:48px}
+  .toc .h{font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal);font-weight:700;margin-bottom:18px;font-family:"Poppins",sans-serif}
+  .toc ol{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px 40px;counter-reset:toc}
+  .toc li{counter-increment:toc;font-size:15px;color:rgba(255,255,255,0.8);padding:6px 0;display:flex;gap:14px;align-items:baseline;font-family:"Roboto",sans-serif}
+  .toc li::before{content:"0" counter(toc);font-family:"JetBrains Mono",monospace;color:var(--teal);font-size:12px;min-width:22px}
+  .toc li a{color:rgba(255,255,255,0.85);font-weight:500}
+  .toc li a:hover{color:var(--teal)}
+
+  /* Brief card grid */
+  .brief-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:20px}
+  .brief-card{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:22px 24px}
+  .brief-card .label{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:0.08em;font-weight:500;color:var(--teal-deep)}
+  .brief-card h4{font-family:"Poppins",sans-serif;font-size:20px;margin:8px 0 8px;letter-spacing:-0.01em;font-weight:600}
+  .brief-card p{font-size:14px;color:var(--g-600);margin:0;line-height:1.55;font-family:"Roboto",sans-serif}
+  .brief-card .field{font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--g-500);margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+
+  /* Process timeline */
+  .timeline{display:flex;flex-direction:column;gap:0;margin-top:12px}
+  .step{display:grid;grid-template-columns:90px 1fr 220px;gap:28px;padding:26px 0;border-top:1px solid var(--line);align-items:start}
+  .step:first-child{border-top:none}
+  .step .k{font-family:"JetBrains Mono",monospace;font-size:14px;color:var(--teal-deep);font-weight:500;line-height:1.4}
+  .step .k em{font-style:normal;color:var(--g-500);font-size:11px;display:block;margin-top:4px;letter-spacing:0.08em;text-transform:uppercase}
+  .step .body h4{font-family:"Poppins",sans-serif;font-size:20px;margin-bottom:6px;letter-spacing:-0.01em;font-weight:600}
+  .step .body p{font-size:14.5px;color:var(--g-600);margin:0;line-height:1.6;font-family:"Roboto",sans-serif}
+  .step .out{background:var(--g-100);border:1px solid var(--line);border-radius:8px;padding:14px 16px;font-size:12.5px;color:var(--g-700);line-height:1.55;font-family:"Roboto",sans-serif}
+  .step .out .t{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:0.08em;font-weight:500;color:var(--teal-deep);margin-bottom:6px}
+
+  /* Deliverable stack */
+  .stack{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:20px}
+  .stack .file{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:24px;position:relative;overflow:hidden}
+  .stack .file .tag{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:0.08em;font-weight:500;color:var(--teal-deep);padding:4px 10px;border:1px solid var(--teal);border-radius:4px;display:inline-block;background:var(--teal-soft)}
+  .stack .file h4{font-family:"Poppins",sans-serif;font-size:22px;margin:14px 0 6px;letter-spacing:-0.01em;font-weight:600}
+  .stack .file p{font-size:13.5px;color:var(--g-600);margin:0 0 14px;line-height:1.55;font-family:"Roboto",sans-serif}
+  .stack .file .fn{font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--g-500);padding-top:12px;border-top:1px dashed var(--line)}
+
+  /* Folder tree */
+  .tree{background:var(--black);color:#E5E5E5;border-radius:10px;padding:26px 28px;font-family:"JetBrains Mono",monospace;font-size:12.5px;line-height:1.8;overflow-x:auto}
+  .tree .d{color:#00B4B4}
+  .tree .f{color:#D9C48E}
+  .tree .c{color:#737373;font-style:italic}
+
+  /* Callout */
+  .note{background:var(--white);border:1px solid var(--line);border-left:3px solid var(--teal);border-radius:8px;padding:18px 22px;font-size:14.5px;color:var(--g-700);display:flex;gap:14px;margin-top:22px;line-height:1.6;font-family:"Roboto",sans-serif}
+  .note .pill{background:var(--black);color:var(--teal);font-weight:700;font-size:10px;letter-spacing:0.12em;padding:4px 10px;border-radius:4px;height:fit-content;text-transform:uppercase;flex-shrink:0;font-family:"Poppins",sans-serif}
+
+  /* Question bank grid */
+  .qbank{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
+  .qcol{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:24px 26px}
+  .qcol h4{font-family:"Poppins",sans-serif;font-size:18px;margin-bottom:16px;letter-spacing:-0.01em;font-weight:600}
+  .qcol ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
+  .qcol li{font-size:14px;color:var(--g-700);padding-left:18px;position:relative;line-height:1.55;font-family:"Roboto",sans-serif}
+  .qcol li::before{content:"›";position:absolute;left:0;color:var(--teal-deep);font-weight:700;font-family:"JetBrains Mono",monospace}
+
+  /* Rubric */
+  .rubric{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px}
+  .rcell{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:18px 20px;display:flex;gap:14px;align-items:flex-start}
+  .rcell .mk{font-family:"JetBrains Mono",monospace;font-size:18px;color:var(--teal-deep);line-height:1;margin-top:2px;flex-shrink:0;font-weight:500}
+  .rcell .mk.bad{color:#B04A3A}
+  .rcell p{margin:0;font-size:14px;color:var(--g-700);line-height:1.55;font-family:"Roboto",sans-serif}
+  .rcell p b{color:var(--black);font-weight:600}
+
+  /* footer */
+  footer.foot{padding:48px 0 72px;color:var(--g-500);font-size:12.5px;background:var(--black)}
+  footer.foot .container{display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px;color:rgba(255,255,255,0.6)}
+  footer.foot .container span.tag{color:var(--teal);font-family:"JetBrains Mono",monospace}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<section class="cover">
+  <div class="motif" aria-hidden="true">&lt;/&gt;</div>
+  <div class="container">
+    <div class="meta">
+      <div>
+        <span class="eyebrow">Internal Playbook · v1.0</span>
+        <h1>AI-Assisted<br/>Website Refresh<span class="tag">.</span></h1>
+      </div>
+      <p class="sub">YohDev's repeatable process for turning a sales handoff into a deployable client playbook — strategy, high-fidelity home page, and a block theme style guide — every time, in hours not weeks.</p>
+    </div>
+
+    <div class="toc">
+      <div class="h">// Contents</div>
+      <ol>
+        <li><a href="#overview">Process overview</a></li>
+        <li><a href="#handoff">Sales → design handoff</a></li>
+        <li><a href="#intake">Discovery brief template</a></li>
+        <li><a href="#process">The six-phase process</a></li>
+        <li><a href="#questions">Question bank</a></li>
+        <li><a href="#system">Committing to a design system</a></li>
+        <li><a href="#build">Build rules &amp; anti-patterns</a></li>
+        <li><a href="#deliverables">The client playbook (deliverable)</a></li>
+        <li><a href="#quality">Quality rubric</a></li>
+        <li><a href="#deploy">Deployment &amp; handoff</a></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<section class="phase" id="overview">
+  <div class="container">
+    <div class="head">
+      <div class="num">// 00 &nbsp;overview</div>
+      <div>
+        <h2>One brief in. <span class="acc">One deployable playbook out.</span></h2>
+        <p class="intro">The goal of this process is not to make a pretty mockup. It's to produce a self-contained, client-ready artifact — a <b>Client Playbook</b> — that captures strategy, shows the work, and hands off to the build team (or the client) with zero ambiguity. Everything we make is a static HTML site deployable to GitHub Pages.</p>
+      </div>
+    </div>
+
+    <div class="stack" style="margin-top:8px">
+      <div class="file"><span class="tag">INPUT</span><h4>Sales Handoff</h4><p>Discovery brief, brand assets, target audience, call notes, URL of current site.</p><div class="fn">from sales team</div></div>
+      <div class="file" style="border-color:var(--teal)"><span class="tag">PROCESS</span><h4>6-Phase Design</h4><p>Intake → Research → System → Home Page → Style Guide → Package.</p><div class="fn">~4–8 focused hours</div></div>
+      <div class="file"><span class="tag">OUTPUT</span><h4>Client Playbook</h4><p>Zipped static site: strategy doc deep-linking to the home page mock and block theme style guide.</p><div class="fn">deploys to GH Pages</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- HANDOFF -->
+<section class="phase" id="handoff">
+  <div class="container">
+    <div class="head">
+      <div class="num">// 01 &nbsp;handoff</div>
+      <div>
+        <h2>What sales hands <span class="acc">to design.</span></h2>
+        <p class="intro">Before a project enters the design queue, sales delivers a structured <a href="Sales Handoff/README.md" style="color:var(--teal);text-decoration:underline;text-underline-offset:3px">Sales Handoff package</a> — eight Markdown files, zipped and attached to the HubSpot deal. If any are empty, the project is not ready. Send it back. Incomplete briefs are the single largest cause of bad design output.</p>
+      </div>
+    </div>
+
+    <div class="brief-grid">
+      <div class="brief-card">
+        <span class="label">01</span>
+        <h4>Discovery Brief</h4>
+        <p>Narrative summary of the discovery call: scope, timeline, success criteria, constraints, key quotes.</p>
+        <div class="field">source · Otter + HubSpot</div>
+      </div>
+      <div class="brief-card">
+        <span class="label">02</span>
+        <h4>Brand Identity</h4>
+        <p>Positioning, voice, personality axes, messaging pillars, words to use / avoid.</p>
+        <div class="field">source · Otter + Phase 01 intake</div>
+      </div>
+      <div class="brief-card">
+        <span class="label">03</span>
+        <h4>Logo &amp; Colors</h4>
+        <p>Asset manifest with file paths. Logos (SVG preferred), palette, typography, brand guide link.</p>
+        <div class="field">source · uploaded assets</div>
+      </div>
+      <div class="brief-card">
+        <span class="label">04</span>
+        <h4>Current Website</h4>
+        <p>Live URL, platform, sitemap snapshot, pages in scope, tech / tracking inventory, known issues.</p>
+        <div class="field">source · domain + /sitemap.xml</div>
+      </div>
+      <div class="brief-card">
+        <span class="label">05</span>
+        <h4>Target Audience</h4>
+        <p>Primary + secondary audiences, anti-audience, how they decide, what makes them bounce.</p>
+        <div class="field">source · Otter discovery</div>
+      </div>
+      <div class="brief-card">
+        <span class="label">06</span>
+        <h4>Personas</h4>
+        <p>1–3 persona cards: role, jobs, obstacles, triggers, turn-offs, a direct quote.</p>
+        <div class="field">source · Otter discovery</div>
+      </div>
+      <div class="brief-card">
+        <span class="label">07</span>
+        <h4>Strategy</h4>
+        <p>The bet, the approach, guardrails, risks, what "done" looks like, open strategic questions.</p>
+        <div class="field">source · Otter discovery</div>
+      </div>
+      <div class="brief-card">
+        <span class="label">08</span>
+        <h4>Client Profile</h4>
+        <p>How to work with them. Communication style, decision-making, what they care about most, watch-outs.</p>
+        <div class="field">source · Otter discovery</div>
+      </div>
+    </div>
+
+    <div class="note">
+      <span class="pill">Rule</span>
+      <div><b>Don't design on guesses.</b> The eight-file package is the contract between sales and design. Open <a href="Sales Handoff/README.md" style="color:var(--teal);text-decoration:underline;text-underline-offset:3px">Sales Handoff/</a> to see the boilerplate. Copy the folder per client, fill every <span class="mono">{{placeholder}}</span>, zip, attach to the deal.</div>
+    </div>
+  </div>
+</section>
+
+<!-- INTAKE -->
+<section class="phase" id="intake">
+  <div class="container">
+    <div class="head">
+      <div class="num">// 02 &nbsp;intake</div>
+      <div>
+        <h2>Turn the brief <span class="acc">into design inputs.</span></h2>
+        <p class="intro">Before the first pixel, convert the brief into a structured set of design decisions. This is the single most important phase — it's where the design gets its direction, before anyone is emotionally attached to a visual.</p>
+      </div>
+    </div>
+
+    <h3 class="block-h">The 10-minute kickoff questionnaire</h3>
+    <p style="font-size:15px;color:var(--g-700);max-width:720px;font-family:'Roboto',sans-serif">Run this with the client (or with yourself, if the brief is thorough) before you start. Every question should produce a concrete answer; "we'll see" is not an answer.</p>
+
+    <div class="qbank">
+      <div class="qcol">
+        <h4>Direction</h4>
+        <ul>
+          <li>Overall vibe: <b>evolution</b>, <b>modern refresh</b>, or <b>bold reimagining</b>?</li>
+          <li>Color direction: keep existing, add a secondary, go lighter/darker?</li>
+          <li>Tone of voice: warm + human, technical + trustworthy, friendly-modern?</li>
+          <li>Photography: real assets, placeholders, or stock-style?</li>
+          <li>Any signature visual touches tied to the brand?</li>
+        </ul>
+      </div>
+      <div class="qcol">
+        <h4>Scope</h4>
+        <ul>
+          <li>Which sections are must-have on the home page?</li>
+          <li>Interactivity: static mock, hover/tabs, or full prototype?</li>
+          <li>Variations: one polished direction, or 2–3 side-by-side?</li>
+          <li>What tweaks would be useful to toggle on the fly?</li>
+          <li>Anything to explicitly <i>avoid</i>?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="note">
+      <span class="pill">Tip</span>
+      <div>Always ask at least 10 questions at intake. "Clean and simple polish" from the client is a directive — honor it literally. No filler sections, no padded copy, no invented data.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="phase" id="process">
+  <div class="container">
+    <div class="head">
+      <div class="num">// 03 &nbsp;process</div>
+      <div>
+        <h2>Six phases, <span class="acc">always in order.</span></h2>
+        <p class="intro">Every project walks this path. Skipping steps (especially the system commitment before building) is the fastest route to a mediocre mockup.</p>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="step">
+        <div class="k">phase_01<em>intake</em></div>
+        <div class="body">
+          <h4>Structured questions</h4>
+          <p>Kickoff questionnaire. Lock direction, scope, tone, and variation count before researching. Produce a written summary of answers.</p>
+        </div>
+        <div class="out"><div class="t">// produces</div>Intake summary · constraints list</div>
+      </div>
+      <div class="step">
+        <div class="k">phase_02<em>research</em></div>
+        <div class="body">
+          <h4>Collect design context</h4>
+          <p>Screenshot the current site. Pull brand assets into the project. List what's missing. If no design system exists, note that you'll derive one from visible cues (logo palette, voice, existing site vocabulary).</p>
+        </div>
+        <div class="out"><div class="t">// produces</div>/assets folder · screenshot(s) · notes</div>
+      </div>
+      <div class="step">
+        <div class="k">phase_03<em>system</em></div>
+        <div class="body">
+          <h4>Commit to a system out loud</h4>
+          <p><b>Before building anything,</b> write down the system: palette (with hex + role), type pairing (display + UI), spacing scale, signature motif. This is non-negotiable — it's what turns "pretty" into "coherent."</p>
+        </div>
+        <div class="out"><div class="t">// produces</div>Design system decisions · inline in the HTML head</div>
+      </div>
+      <div class="step">
+        <div class="k">phase_04<em>build</em></div>
+        <div class="body">
+          <h4>Home Page mock</h4>
+          <p>One HTML file. Lean sections only — if the client said "simple," don't invent an FAQ. Signature motif threaded through 2–3 places. No filler content, ever.</p>
+        </div>
+        <div class="out"><div class="t">// produces</div>Homepage.html + /assets</div>
+      </div>
+      <div class="step">
+        <div class="k">phase_05<em>guide</em></div>
+        <div class="body">
+          <h4>Block Theme Style Guide</h4>
+          <p>Translate the decisions from the mock into a handoff doc: color swatches with theme.json slugs, fluid type specimens, button variants, header + footer patterns, and a drop-in <span class="mono">theme.json</span> snippet.</p>
+        </div>
+        <div class="out"><div class="t">// produces</div>Style Guide.html + theme.json</div>
+      </div>
+      <div class="step">
+        <div class="k">phase_06<em>package</em></div>
+        <div class="body">
+          <h4>Client Playbook</h4>
+          <p>A strategy overview page that deep-links to the home page mock and style guide. Zip the folder, deploy to GH Pages, hand off to the client.</p>
+        </div>
+        <div class="out"><div class="t">// produces</div>Playbook zip · GH Pages URL</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUESTIONS -->
+<section class="phase" id="questions">
+  <div class="container">
+    <div class="head">
+      <div class="num">// 04 &nbsp;questions</div>
+      <div>
+        <h2>The canonical <span class="acc">ten.</span></h2>
+        <p class="intro">Start every intake with these. Every one has produced a decision that changed the final design at least once. Add project-specific questions on top, never below.</p>
+      </div>
+    </div>
+
+    <ul class="clean" style="margin-top:10px">
+      <li><b>01</b> Overall vibe — evolution, modern refresh, or bold reimagining?</li>
+      <li><b>02</b> Color direction — how do we treat the existing palette?</li>
+      <li><b>03</b> Hero treatment — editorial split, full-bleed photo, centered, or CTA-first?</li>
+      <li><b>04</b> Must-have sections — hero, services, case studies, team, contact?</li>
+      <li><b>05</b> Tone of voice — warm + human, technical + trustworthy, friendly-modern?</li>
+      <li><b>06</b> Interactivity — static, some hover/tabs, or fully prototyped?</li>
+      <li><b>07</b> Variations — one polished direction, 2–3 side-by-side, or main + Tweaks?</li>
+      <li><b>08</b> Signature visual touches — brand-rooted motifs, live widgets, illustration style?</li>
+      <li><b>09</b> Photography — real team photos, placeholders, or stock-style?</li>
+      <li><b>10</b> Must-avoids — anything the client explicitly rejects?</li>
+    </ul>
+  </div>
+</section>
+
+<!-- SYSTEM -->
+<section class="phase" id="system">
+  <div class="container">
+    <div class="head">
+      <div class="num">// 05 &nbsp;system</div>
+      <div>
+        <h2>Write the system <span class="acc">before you build.</span></h2>
+        <p class="intro">Open the HTML file. In a comment at the top, declare the full system. If you can't, you're not ready to design. This single habit is the difference between coherent work and AI slop.</p>
+      </div>
+    </div>
+
+    <h4 class="sub-h">Palette</h4>
+    <p style="font-size:14.5px;color:var(--g-700);max-width:680px;font-family:'Roboto',sans-serif">Pick a <b>primary</b> (brand-rooted, high-contrast on canvas), a <b>soft secondary</b>, a <b>warm surface</b> (canvas), an <b>accent</b> pulled from the logo, and neutrals. Never more than three brand colors. Define role + hex + a slug you'll use in <span class="mono">theme.json</span>.</p>
+
+    <h4 class="sub-h">Type pairing</h4>
+    <p style="font-size:14.5px;color:var(--g-700);max-width:680px;font-family:'Roboto',sans-serif">Commit to one <b>display/UI sans</b> and one <b>body sans</b>. Use fluid <span class="mono">clamp()</span> sizes so the scale holds from 375px to 1920px without breakpoint juggling.</p>
+
+    <h4 class="sub-h">Signature motif</h4>
+    <p style="font-size:14.5px;color:var(--g-700);max-width:680px;font-family:'Roboto',sans-serif">One visual element threaded through 2–3 places — a mark, a subtle texture, a type treatment. This is what makes the site feel <i>designed</i>, not <i>assembled</i>.</p>
+
+    <div class="note">
+      <span class="pill">Anti-slop</span>
+      <div>No gradient backgrounds for their own sake. No emoji unless it's part of the brand. No left-border accent cards without purpose. No SVG illustration of imagery — use placeholders and request real assets. Less is more; one thousand no's for every yes.</div>
+    </div>
+  </div>
+</section>
+
+<!-- BUILD -->
+<section class="phase" id="build">
+  <div class="container">
+    <div class="head">
+      <div class="num">// 06 &nbsp;build</div>
+      <div>
+        <h2>Lean by <span class="acc">default.</span></h2>
+        <p class="intro">Every section must earn its place. If the brief says "clean and simple," the home page probably has five sections, not twelve. If a section feels empty, solve it with layout — never by inventing content.</p>
+      </div>
+    </div>
+
+    <div class="rubric">
+      <div class="rcell"><span class="mk">✓</span><p><b>Match the vocabulary.</b> Copy tone, color discipline, density, and shadow language stay consistent within a single file.</p></div>
+      <div class="rcell"><span class="mk bad">✕</span><p><b>No filler content.</b> No dummy FAQs, no "Why Choose Us," no padded stat grids invented for visual balance.</p></div>
+      <div class="rcell"><span class="mk">✓</span><p><b>Real-feeling placeholders.</b> Client names, case-study copy, and stats are plausible but explicitly noted as placeholders in the handoff.</p></div>
+      <div class="rcell"><span class="mk bad">✕</span><p><b>No data slop.</b> Don't invent "98% satisfaction" or "500 projects shipped" unless the client gave you the number.</p></div>
+      <div class="rcell"><span class="mk">✓</span><p><b>Accessible by default.</b> Body copy ≥ WCAG AA. Interactive elements have visible focus rings. Hit targets ≥ 44px on mobile.</p></div>
+      <div class="rcell"><span class="mk bad">✕</span><p><b>No SVG portraits pretending to be photos.</b> Use stylized placeholders clearly, and flag real photography as a next step.</p></div>
+      <div class="rcell"><span class="mk">✓</span><p><b>Tweakable.</b> Surface 3–5 toggles (density, accent color, hero variant) even if the client didn't ask — it opens conversations.</p></div>
+      <div class="rcell"><span class="mk bad">✕</span><p><b>No scope creep mid-build.</b> Extra sections and pages happen in a v2 — ask the client first.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- DELIVERABLES -->
+<section class="phase" id="deliverables">
+  <div class="container">
+    <div class="head">
+      <div class="num">// 07 &nbsp;deliverables</div>
+      <div>
+        <h2>The Client <span class="acc">Playbook.</span></h2>
+        <p class="intro">Every project ships as a single zipped static site. It's self-contained, deployable to GH Pages, and readable offline. Three files, one strategy narrative that links them together.</p>
+      </div>
+    </div>
+
+    <div class="stack" style="margin-top:8px">
+      <div class="file">
+        <span class="tag">01 · NARRATIVE</span>
+        <h4>Strategy Overview</h4>
+        <p>One-pager that explains the approach, the audience insight, and the design decisions. Deep-links to the mock and style guide.</p>
+        <div class="fn">index.html</div>
+      </div>
+      <div class="file">
+        <span class="tag">02 · VISION</span>
+        <h4>Home Page Mock</h4>
+        <p>High-fidelity, full-bleed, responsive. Contains Tweaks so the client can compare variants inline.</p>
+        <div class="fn">home/index.html</div>
+      </div>
+      <div class="file">
+        <span class="tag">03 · HANDOFF</span>
+        <h4>Block Theme Style Guide</h4>
+        <p>Tokens, type specimens, buttons, header, footer, and a drop-in <span class="mono">theme.json</span> for a custom block theme.</p>
+        <div class="fn">style-guide/index.html</div>
+      </div>
+    </div>
+
+    <h4 class="sub-h" style="margin-top:40px">Folder structure</h4>
+    <div class="tree">
+<span class="c"># {client-slug}-playbook/</span>
+<span class="d">├── index.html</span>              <span class="c"># Strategy overview (entry point)</span>
+<span class="d">├── home/</span>
+<span class="d">│   ├── index.html</span>          <span class="c"># Home page mock</span>
+<span class="d">│   └── assets/</span>              <span class="c"># logo, images, fonts</span>
+<span class="d">├── style-guide/</span>
+<span class="d">│   ├── index.html</span>          <span class="c"># Block theme style guide</span>
+<span class="f">│   └── theme.json</span>          <span class="c"># Drop-in for custom block theme</span>
+<span class="d">├── brief/</span>
+<span class="f">│   └── discovery.md</span>         <span class="c"># Sales handoff, archived</span>
+<span class="f">├── README.md</span>                <span class="c"># How to deploy to GH Pages</span>
+<span class="f">└── .nojekyll</span>                <span class="c"># Prevents Jekyll on GH Pages</span>
+    </div>
+
+    <h4 class="sub-h" style="margin-top:36px">Strategy Overview — required sections</h4>
+    <ul class="clean">
+      <li><b>01</b> <span style="color:var(--ink-2)">Hello — a one-sentence framing of the project.</span></li>
+      <li><b>02</b> <span style="color:var(--ink-2)">What we heard — the client's priorities in their own words (from call notes).</span></li>
+      <li><b>03</b> <span style="color:var(--ink-2)">Strategy — our approach. Why this direction fits the audience.</span></li>
+      <li><b>04</b> <span style="color:var(--ink-2)">The Home Page — thumbnail + deep link. Three bullets on what's new.</span></li>
+      <li><b>05</b> <span style="color:var(--ink-2)">The Style Guide — thumbnail + deep link. What the dev team uses.</span></li>
+      <li><b>06</b> <span style="color:var(--ink-2)">Next steps — other pages, real photography, content migration.</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- QUALITY -->
+<section class="phase" id="quality">
+  <div class="container">
+    <div class="head">
+      <div class="num">// 08 &nbsp;quality</div>
+      <div>
+        <h2>Ship checklist.</h2>
+        <p class="intro">Run this before sending the client link. If any item fails, fix before delivery — not after.</p>
+      </div>
+    </div>
+
+    <ul class="clean" style="margin-top:8px">
+      <li><b>system</b> <span style="color:var(--ink-2)">Palette, type, motif are declared at the top of each HTML file.</span></li>
+      <li><b>lean</b> <span style="color:var(--ink-2)">No filler sections, no invented stats, no dummy FAQs.</span></li>
+      <li><b>a11y</b> <span style="color:var(--ink-2)">Body copy passes WCAG AA. All interactive elements have focus rings.</span></li>
+      <li><b>tokens</b> <span style="color:var(--ink-2)">Style guide slugs match the <span class="mono">theme.json</span> palette exactly.</span></li>
+      <li><b>links</b> <span style="color:var(--ink-2)">Strategy Overview deep-links work locally and after GH Pages deploy.</span></li>
+      <li><b>assets</b> <span style="color:var(--ink-2)">Fonts load (local or Google CDN). Logo present. No broken images.</span></li>
+      <li><b>respond</b> <span style="color:var(--ink-2)">Looks correct at 1440, 1024, 768, 375 widths.</span></li>
+      <li><b>stubs</b> <span style="color:var(--ink-2)">Every placeholder (client name, stat, photo) is noted in the README.</span></li>
+      <li><b>readme</b> <span style="color:var(--ink-2)">Deploy instructions + next-step checklist are written.</span></li>
+      <li><b>archive</b> <span style="color:var(--ink-2)">The original Discovery Brief is in <span class="mono">/brief/</span>.</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- DEPLOY -->
+<section class="phase" id="deploy" style="border-bottom:none">
+  <div class="container">
+    <div class="head">
+      <div class="num">// 09 &nbsp;deploy</div>
+      <div>
+        <h2>GH Pages in <span class="acc">three commands.</span></h2>
+        <p class="intro">Because everything is static HTML, the playbook deploys to GH Pages with zero build step. The <span class="mono">.nojekyll</span> file ensures folders starting with underscores still serve correctly.</p>
+      </div>
+    </div>
+
+    <div class="tree">
+<span class="c"># From inside {client-slug}-playbook/</span>
+git init
+git add .
+git commit -m <span class="f">"client playbook v1"</span>
+git branch -M main
+git remote add origin git@github.com:yohdev/{client-slug}-playbook.git
+git push -u origin main
+
+<span class="c"># Then in the repo settings → Pages:</span>
+<span class="c"># Source: Deploy from branch</span>
+<span class="c"># Branch: main / (root)</span>
+
+<span class="c"># Share with client:</span>
+<span class="f">https://yohdev.github.io/{client-slug}-playbook/</span>
+    </div>
+
+    <div class="note">
+      <span class="pill">Next</span>
+      <div>Once this playbook is stable, we'll layer a <b>Claude Skill</b> on top of it — a trigger prompt + instructions file that reproduces this exact process when invoked from the Discovery Brief. The playbook becomes the authoritative source the skill reads from.</div>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="container">
+    <span>YohDev · Internal Playbook · AI-Assisted Website Refresh <span class="tag">v1.0</span></span>
+    <span>Maintained by the design team · yohdev.com</span>
+  </div>
+</footer>
+
+</body>
+</html>
