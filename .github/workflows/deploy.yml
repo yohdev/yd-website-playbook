@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+      - 'daly'
+      - 'client-*'
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -115,8 +117,8 @@ jobs:
         with:
           path: ./dist
 
-      - name: Upload artifact for PR preview
-        if: github.event_name == 'pull_request'
+      - name: Upload artifact for PR preview and branch deployment
+        if: github.event_name == 'pull_request' || startsWith(github.ref, 'refs/heads/client-') || github.ref == 'refs/heads/daly'
         uses: actions/upload-artifact@v4
         with:
           name: preview-build
@@ -133,6 +135,62 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  deploy-branch:
+    if: github.event_name == 'push' && (startsWith(github.ref, 'refs/heads/client-') || github.ref == 'refs/heads/daly')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: preview-build
+          path: ./dist
+          
+      - name: Get branch name
+        id: branch
+        run: echo "name=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
+        
+      - name: Deploy to branch subdirectory
+        run: |
+          # Configure git
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          # Clone gh-pages branch
+          git clone --single-branch --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git gh-pages || {
+            # If gh-pages doesn't exist, create it
+            mkdir gh-pages
+            cd gh-pages
+            git init
+            git checkout -b gh-pages
+            cd ..
+          }
+          
+          # Create branch subdirectory
+          mkdir -p gh-pages/branches/${{ steps.branch.outputs.name }}
+          
+          # Copy build to branch directory
+          cp -r dist/* gh-pages/branches/${{ steps.branch.outputs.name }}/
+          
+          # Commit and push
+          cd gh-pages
+          git add .
+          git commit -m "Deploy branch ${{ steps.branch.outputs.name }} - ${{ github.sha }}" || echo "No changes to commit"
+          git push origin gh-pages --force
+          
+      - name: Output deployment URL
+        run: |
+          echo "🚀 Branch deployed to: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/branches/${{ steps.branch.outputs.name }}/"
 
   comment-preview:
     if: github.event_name == 'pull_request'
@@ -152,10 +210,26 @@ jobs:
             const repoUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}`;
             const artifactUrl = `${repoUrl}/actions/runs/${runId}`;
             
-            const body = `🔨 **Build Complete!**
+            // Get branch name from PR
+            const branchName = context.payload.pull_request.head.ref;
+            const isClientBranch = branchName === 'daly' || branchName.startsWith('client-');
+            
+            let body = `🔨 **Build Complete!**
             
             Your PR build has finished successfully. 
+            `;
             
+            // Add branch preview URL if this is a client branch
+            if (isClientBranch) {
+              body += `
+            **🌐 Branch Preview URL:**
+            https://${context.repo.owner}.github.io/${context.repo.repo}/branches/${branchName}/
+            
+            _Note: The preview URL will be available after the branch is pushed._
+            `;
+            }
+            
+            body += `
             **📦 Preview Artifacts:**
             - [Download build artifacts](${artifactUrl}) to test locally
             - Run \`npm run serve\` in the downloaded \`dist/\` folder
