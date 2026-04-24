@@ -4,17 +4,22 @@ on:
   push:
     branches:
       - main
+      - 'client-*'
+      - 'daly'
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened, closed]
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
   pull-requests: write
+
+concurrency:
+  group: gh-pages-deploy
+  cancel-in-progress: false
 
 jobs:
   build:
+    if: github.event.action != 'closed'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -47,38 +52,26 @@ jobs:
 
       - name: Build site
         run: |
-          # Create dist directory
           mkdir -p dist
-          
-          # If we have client deliverables, use those
+
           if [ "${{ steps.check_deliverables.outputs.has_deliverables }}" == "true" ]; then
             echo "Building with client deliverables..."
             cp -r output/* dist/
-            # Copy any assets
             [ -d "assets" ] && cp -r assets dist/
           else
             echo "Building with reference implementation..."
-            # Copy reference files from skill directory
             cp .claude/skills/yohdev-website-refresh/reference/Homepage.html dist/index.html
             cp .claude/skills/yohdev-website-refresh/reference/Style-Guide.html dist/style-guide.html
             cp .claude/skills/yohdev-website-refresh/reference/Playbook.html dist/playbook.html
-            # Copy uploads if they exist
             [ -d "uploads" ] && cp -r uploads dist/
           fi
-          
-          # Copy skill documentation
+
           mkdir -p dist/docs
           cp README.md dist/docs/
-          cp -r .claude/skills/yohdev-website-refresh/reference dist/docs/reference
-          
-          # Ensure we have an index.html (should already be set from above)
+          [ -d ".claude/skills/yohdev-website-refresh/reference" ] && cp -r .claude/skills/yohdev-website-refresh/reference dist/docs/reference
+
           if [ ! -f "dist/index.html" ]; then
-            echo "Warning: No index.html found after build"
-          fi
-          
-          # Create a simple landing page if no index exists
-          if [ ! -f "dist/index.html" ]; then
-            cat > dist/index.html << 'EOF'
+            cat > dist/index.html << 'FALLBACK'
           <!DOCTYPE html>
           <html lang="en">
           <head>
@@ -103,100 +96,227 @@ jobs:
             </div>
           </body>
           </html>
-          EOF
+          FALLBACK
           fi
-          
-          # Add .nojekyll to prevent Jekyll processing
+
           touch dist/.nojekyll
 
-      - name: Upload artifact for GitHub Pages
-        if: github.ref == 'refs/heads/main'
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./dist
-
-      - name: Upload artifact for PR preview
-        if: github.event_name == 'pull_request'
+      - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: preview-build
+          name: site-build
           path: ./dist
+          retention-days: 1
 
   deploy-main:
-    if: github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          fetch-depth: 1
+        continue-on-error: true
+        id: checkout_ghpages
+
+      - name: Initialize gh-pages branch if missing
+        if: steps.checkout_ghpages.outcome == 'failure'
+        run: |
+          git checkout --orphan gh-pages
+          git rm -rf . || true
+          touch .nojekyll
+          git add .nojekyll
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git commit -m "Initialize gh-pages branch"
+          git push origin gh-pages
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: site-build
+          path: ./incoming
+
+      - name: Deploy to root (preserve branches/)
+        run: |
+          # Remove all root-level files but keep branches/ directory and incoming/
+          find . -maxdepth 1 -not -name '.' -not -name '.git' -not -name 'branches' -not -name 'incoming' -exec rm -rf {} +
+
+          # Copy new build to root
+          cp -r incoming/* .
+          rm -rf incoming
+
+          # Ensure .nojekyll exists
+          touch .nojekyll
+
+      - name: Commit and push
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --staged --quiet && echo "No changes to deploy" && exit 0
+          git commit -m "Deploy main to root"
+          git push origin gh-pages
+
+  deploy-branch:
+    if: github.event_name == 'push' && github.ref != 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get branch name
+        id: branch
+        run: echo "name=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
+
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          fetch-depth: 1
+        continue-on-error: true
+        id: checkout_ghpages
+
+      - name: Initialize gh-pages branch if missing
+        if: steps.checkout_ghpages.outcome == 'failure'
+        run: |
+          git checkout --orphan gh-pages
+          git rm -rf . || true
+          touch .nojekyll
+          git add .nojekyll
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git commit -m "Initialize gh-pages branch"
+          git push origin gh-pages
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: site-build
+          path: ./incoming
+
+      - name: Deploy to branch subdirectory
+        run: |
+          BRANCH_NAME="${{ steps.branch.outputs.name }}"
+
+          # Clean and recreate branch directory
+          rm -rf "branches/${BRANCH_NAME}"
+          mkdir -p "branches/${BRANCH_NAME}"
+
+          # Copy new build
+          cp -r incoming/* "branches/${BRANCH_NAME}/"
+          rm -rf incoming
+
+      - name: Commit and push
+        run: |
+          BRANCH_NAME="${{ steps.branch.outputs.name }}"
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --staged --quiet && echo "No changes to deploy" && exit 0
+          git commit -m "Deploy branch ${BRANCH_NAME}"
+          git push origin gh-pages
 
   comment-preview:
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' && github.event.action != 'closed'
     needs: build
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
     steps:
-      - name: Comment PR with build status
+      - name: Comment PR with preview URL
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const runId = '${{ github.run_id }}';
+            const branchName = context.payload.pull_request.head.ref;
+            const previewUrl = `https://${context.repo.owner}.github.io/${context.repo.repo}/branches/${branchName}/`;
+            const runUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${{ github.run_id }}`;
             const actor = '${{ github.actor }}';
-            const prNumber = '${{ github.event.pull_request.number }}';
-            const repoUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}`;
-            const artifactUrl = `${repoUrl}/actions/runs/${runId}`;
-            
-            const body = `🔨 **Build Complete!**
-            
-            Your PR build has finished successfully. 
-            
-            **📦 Preview Artifacts:**
-            - [Download build artifacts](${artifactUrl}) to test locally
-            - Run \`npm run serve\` in the downloaded \`dist/\` folder
-            
-            **🚀 To deploy a preview:**
-            1. Download the build artifact
-            2. Test locally with \`npm run serve\`
-            3. When ready, merge to main for production deployment
-            
-            **Production URL:** https://${context.repo.owner}.github.io/${context.repo.repo}/
-            
-            ---
-            
-            Built by @${actor} • [View workflow run](${artifactUrl})`;
-            
-            // Find existing comment
+
+            const body = [
+              `**Preview Ready**`,
+              ``,
+              `${previewUrl}`,
+              ``,
+              `Branch: \`${branchName}\``,
+              `Built by: @${actor} | [Workflow run](${runUrl})`,
+            ].join('\n');
+
             const { data: comments } = await github.rest.issues.listComments({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
             });
-            
-            const botComment = comments.find(comment => 
-              comment.user.type === 'Bot' && 
-              comment.body.includes('Build Complete!')
+
+            const botComment = comments.find(c =>
+              c.user.type === 'Bot' && c.body.includes('Preview Ready')
             );
-            
+
             if (botComment) {
-              // Update existing comment
               await github.rest.issues.updateComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 comment_id: botComment.id,
-                body: body
+                body: body,
               });
             } else {
-              // Create new comment
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.issue.number,
-                body: body
+                body: body,
               });
             }
+
+  cleanup-preview:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Get branch name
+        id: branch
+        run: echo "name=${{ github.event.pull_request.head.ref }}" >> $GITHUB_OUTPUT
+
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          fetch-depth: 1
+        continue-on-error: true
+        id: checkout_ghpages
+
+      - name: Remove branch preview
+        if: steps.checkout_ghpages.outcome == 'success'
+        run: |
+          BRANCH_NAME="${{ steps.branch.outputs.name }}"
+          if [ -d "branches/${BRANCH_NAME}" ]; then
+            rm -rf "branches/${BRANCH_NAME}"
+            git config user.name 'github-actions[bot]'
+            git config user.email 'github-actions[bot]@users.noreply.github.com'
+            git add -A
+            git diff --staged --quiet && echo "No preview to clean up" && exit 0
+            git commit -m "Cleanup preview for branch ${BRANCH_NAME}"
+            git push origin gh-pages
+            echo "cleaned=true" >> $GITHUB_OUTPUT
+          else
+            echo "No preview found for branch ${BRANCH_NAME}"
+            echo "cleaned=false" >> $GITHUB_OUTPUT
+          fi
+        id: cleanup
+
+      - name: Comment PR confirming cleanup
+        if: steps.cleanup.outputs.cleaned == 'true'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const branchName = '${{ steps.branch.outputs.name }}';
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `Preview for \`${branchName}\` has been removed.`,
+            });
