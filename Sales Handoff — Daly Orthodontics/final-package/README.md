@@ -107,7 +107,7 @@ The intake summary has the full list. Top priorities:
 1. Close the five open questions above.
 2. Greenlight on M1 (and optionally M2).
 3. YohDev kicks off Phase 02 Research the following Monday.
-4. June 2026 Pearl Sites billing cycle stays comfortably clear.
+4. June 2026 ProSites billing cycle stays comfortably clear.
 
 ---
 

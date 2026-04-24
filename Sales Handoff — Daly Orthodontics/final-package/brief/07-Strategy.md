@@ -48,7 +48,7 @@ The site needs to do one thing clearly and fast: confirm to a Burlington-area pa
 
 ## Guardrails
 
-- Hard deadline: site must be live and Pearl Sites subscription cancellable before the June 2026 billing cycle — this is non-negotiable and governs every sequencing decision in Milestone 1
+- Hard deadline: site must be live and ProSites subscription cancellable before the June 2026 billing cycle — this is non-negotiable and governs every sequencing decision in Milestone 1
 - Full UX redesign is out of scope for Milestone 1 — any design changes are limited to mobile nav polish; do not expand scope under time pressure
 - No SEO content strategy, blog writing, or Google Ads management is contracted in this phase — surface these as clear Milestone 2 and ongoing retainer opportunities, but do not fold them into the current quote
 - Migration must be treated as a content preservation exercise, not a content improvement exercise — Google must read the migrated site as the same site, not a relaunch
@@ -58,31 +58,31 @@ The site needs to do one thing clearly and fast: confirm to a Burlington-area pa
 
 ## Risks
 
-- **Pearl Sites content export friction:** Pearl Sites does not provide clean migration paths — manual page-by-page extraction is likely, which compresses the already tight timeline. Scope should account for this explicitly and set expectations early.
+- **ProSites content export friction:** ProSites does not provide clean migration paths — manual page-by-page extraction is likely, which compresses the already tight timeline. Scope should account for this explicitly and set expectations early.
 - **Blog content volume:** Roughly 50–70 posts may exist from the past year. Auditing and deciding the disposition of each post (migrate, noindex, redirect, discard) takes time. A clear decision framework agreed with the client upfront will prevent this from becoming a bottleneck.
 - **SEO regression during cutover:** Even a careful one-for-one migration carries some temporary ranking volatility risk. The pre-migration SEO scan and a post-launch monitoring window should be positioned as standard practice, not as a disclaimer.
-- **Double-billing anxiety:** Victor has explicitly expressed concern about paying both Pearl Sites and YohDev at the same time during transition. The project timeline and payment structure should be presented in a way that makes the overlap period feel controlled and bounded.
+- **Double-billing anxiety:** Victor has explicitly expressed concern about paying both ProSites and YohDev at the same time during transition. The project timeline and payment structure should be presented in a way that makes the overlap period feel controlled and bounded.
 - **Scope creep into Milestone 2:** Victor and his wife reviewing example sites before Friday creates a real risk that the follow-up conversation blurs the line between lift-and-shift and redesign. Andrew should go into that call with a clear written scope boundary and a separate Milestone 2 quote ready to present rather than field redesign decisions live.
 - **Decision-maker split:** Victor handles the business side, but his wife (the practicing orthodontist) is a co-decision-maker and will be reviewing examples. Any strategic or creative recommendation that Victor agrees to in isolation may need to be re-confirmed with her before it's locked.
-- **Anti-audience SEO debt:** The existing Pearl Sites blog content may have built rankings and backlinks for dental and oral surgery keywords. Migrating those posts without flagging them could perpetuate the wrong-traffic problem even after leaving Pearl Sites. The pre-migration audit must surface this clearly.
+- **Anti-audience SEO debt:** The existing ProSites blog content may have built rankings and backlinks for dental and oral surgery keywords. Migrating those posts without flagging them could perpetuate the wrong-traffic problem even after leaving ProSites. The pre-migration audit must surface this clearly.
 
 ---
 
 ## What "done" looks like
 
-Milestone 1 is done when the site is live on WordPress before the June 2026 billing date, Victor has cancelled his Pearl Sites subscription, and Google sees no meaningful change in site identity or rankings. Practically: Victor owns his domain, his content, and his hosting; he can log into WordPress and update a page or add a post without calling anyone; the mobile navigation is clean enough that a parent searching on their phone can find the contact page in one tap; and the site is no longer sending Google signals that Daly Orthodontics treats dental or oral surgery patients.
+Milestone 1 is done when the site is live on WordPress before the June 2026 billing date, Victor has cancelled his ProSites subscription, and Google sees no meaningful change in site identity or rankings. Practically: Victor owns his domain, his content, and his hosting; he can log into WordPress and update a page or add a post without calling anyone; the mobile navigation is clean enough that a parent searching on their phone can find the contact page in one tap; and the site is no longer sending Google signals that Daly Orthodontics treats dental or oral surgery patients.
 
 ---
 
 ## Open strategic questions for Phase 01
 
-- [ ] What is the exact Pearl Sites contract cancellation notice period and cutoff date — does "before June billing" mean cancelled by May 31 or earlier?
+- [ ] What is the exact ProSites contract cancellation notice period and cutoff date — does "before June billing" mean cancelled by May 31 or earlier?
 - [ ] Which pages does Victor consider highest priority to protect from any ranking disruption (homepage, services pages, specific treatment pages)?
 - [ ] What is the disposition policy for the problematic blog posts — noindex and leave, redirect to a relevant page, or delete with 410? Client needs to make this call with SEO implications explained.
-- [ ] Does the client own the domain outright, or is it registered through Pearl Sites? (If the latter, domain transfer must be factored into the timeline.)
+- [ ] Does the client own the domain outright, or is it registered through ProSites? (If the latter, domain transfer must be factored into the timeline.)
 - [ ] What hosting preference does Victor lean toward: YohDev-managed or self-managed? This affects infrastructure setup time.
 - [ ] Are the proprietary practice photos accessible as original files, or must they be scraped from the current site?
 - [ ] What is the wife's name and role in approvals — should she be added as a named stakeholder and copied on communications?
-- [ ] Is there an existing Google Search Console and Google Analytics setup under Pearl Sites ownership, or does that need to be created and verified fresh on migration?
+- [ ] Is there an existing Google Search Console and Google Analytics setup under ProSites ownership, or does that need to be created and verified fresh on migration?
 - [ ] What is Victor's definition of "basic content updates" — adding a page, editing body text, swapping a photo, posting a blog? This scopes the WordPress onboarding and training component.
 - [ ] Is there appetite to add an orthodontics-specific blog content strategy as an optional add-on to Milestone 1, or is that firmly a Milestone 2 conversation?

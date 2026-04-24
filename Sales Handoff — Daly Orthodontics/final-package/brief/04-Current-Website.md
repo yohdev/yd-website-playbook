@@ -10,9 +10,9 @@ last_updated: 2026-04-24
 ## Site info
 | Field | Value |
 |---|---|
-| URL | https://dailyorthodontics.com *(domain uses "daily" spelling — confirm with Victor whether this is intentional or a legacy mistake from Pearl Sites registration)* |
-| Platform / CMS | Pearl Sites (proprietary CMS — also referred to as "Pro Sites" in discovery call) |
-| Hosting | Pearl Sites managed hosting |
+| URL | https://dailyorthodontics.com *(domain uses "daily" spelling — confirm with Victor whether this is intentional or a legacy mistake from ProSites registration)* |
+| Platform / CMS | ProSites (proprietary CMS) |
+| Hosting | ProSites managed hosting |
 | Practice address | 3814 Rural Retreat Rd, Suite 101, Burlington, NC 27215-8367 *(from current-site utility bar)* |
 | Practice phone | (336) 891-4917 *(from current-site utility bar)* |
 | Social presence | Instagram, Facebook, Google Business Profile *(icons in current-site utility bar — collect handles at Friday call)* |
@@ -35,22 +35,22 @@ Bottom-left: accessibility widget
 | About / Meet the Doctor | /about (subnav implied by chevron) | High |
 | Treatments | /treatments (subnav implied) — expect: Braces, Clear Aligners, Adult, Teen/Child, Early Treatment | High |
 | New Patients | /new-patients (subnav implied) — expect: first visit, forms, insurance | High |
-| Patient Hub | /patient-hub — logged-in/portal area, likely Pearl Sites-proprietary, confirm migration path | Med–High |
+| Patient Hub | /patient-hub — logged-in/portal area, likely ProSites-proprietary, confirm migration path | Med–High |
 | More (overflow) | — contents unknown, often blog + misc. Confirm in crawl. | Med |
 | Contact / Book Appointment | /contact + LocalMed embed | High |
 | Blog / SEO content | /blog or equivalent | High |
 
-> **Note:** Full page inventory to be completed during Phase 02 Research via crawl of https://dailyorthodontics.com/sitemap.xml. Approximately 1 blog post per week dating back to 2025 is expected — each post must be individually evaluated for migration, redirect, or discard before go-live. The "Patient Hub" is the biggest migration unknown — it may be a proprietary Pearl Sites feature that cannot be lifted 1:1 and needs a WordPress replacement (or a decision to drop).
+> **Note:** Full page inventory to be completed during Phase 02 Research via crawl of https://dailyorthodontics.com/sitemap.xml. Approximately 1 blog post per week dating back to 2025 is expected — each post must be individually evaluated for migration, redirect, or discard before go-live. The "Patient Hub" is the biggest migration unknown — it may be a proprietary ProSites feature that cannot be lifted 1:1 and needs a WordPress replacement (or a decision to drop).
 
 ---
 ## Known issues (from call)
-- Client has no ownership of website assets under Pearl Sites — domain, content, and infrastructure are vendor-controlled
-- Every structural or design change requires going through Pearl Sites and incurs upcharges; client only has a limited editor view for basic text and content changes
+- Client has no ownership of website assets under ProSites — domain, content, and infrastructure are vendor-controlled
+- Every structural or design change requires going through ProSites and incurs upcharges; client only has a limited editor view for basic text and content changes
 - SEO blog content is generic and irrelevant to orthodontics — posts covering oral surgery, general dentistry, and at least one post actively discouraging readers from visiting an orthodontist have been published
-- Pearl Sites is suspected to push the same generic dental content across all clients rather than producing practice-specific strategy
+- ProSites is suspected to push the same generic dental content across all clients rather than producing practice-specific strategy
 - Irrelevant blog content has attracted non-converting traffic and wrong-specialty phone calls; client has had to add negative keywords to Google Ads campaigns to filter out general dental inquiries
 - Mobile navigation is crowded and poorly designed — identified by client as a priority fix for Milestone 1
-- Client is on a monthly contract and must exit before the June 2026 billing date to avoid paying an additional month to Pearl Sites
+- Client is on a monthly contract and must exit before the June 2026 billing date to avoid paying an additional month to ProSites
 
 ---
 ## Integrations / tracking
@@ -74,7 +74,7 @@ Bottom-left: accessibility widget
 - Google Ads integration and any tracking parameters currently in place
 
 ## What's broken (fix it)
-- Vendor lock-in with Pearl Sites — no client ownership of domain, content, or infrastructure
+- Vendor lock-in with ProSites — no client ownership of domain, content, or infrastructure
 - Generic, off-topic SEO blog content driving non-orthodontic traffic and wrong-specialty phone calls
 - Mobile navigation — crowded layout, poor usability, priority fix for Milestone 1
 - Inability to add pages or make structural changes without vendor involvement and upcharges

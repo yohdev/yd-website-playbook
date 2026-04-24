@@ -21,13 +21,13 @@
 
 **What makes them bounce:**
 
-- Landing on content that doesn't match their intent — blog posts about oral surgery, general dentistry, or anything that signals this is not an orthodontic practice. This has already been documented as a live problem; Pearl Sites SEO content has driven wrong-specialty phone calls and forced the client to add negative keywords to Google Ads.
+- Landing on content that doesn't match their intent — blog posts about oral surgery, general dentistry, or anything that signals this is not an orthodontic practice. This has already been documented as a live problem; ProSites SEO content has driven wrong-specialty phone calls and forced the client to add negative keywords to Google Ads.
 - A cluttered or confusing mobile experience — mobile nav is currently identified as crowded and poorly designed, and the majority of local search traffic arrives on mobile.
 - No clear indication of location — patients need to quickly confirm the practice serves Burlington, NC.
 
 **Where they find us:**
 
-- Google Search (organic SEO — currently managed, poorly, by Pearl Sites)
+- Google Search (organic SEO — currently managed, poorly, by ProSites)
 - Google Ads (active campaign, managed separately)
 - Likely some word-of-mouth and social media referrals driven by Maris Sooul's social media management
 
@@ -45,7 +45,7 @@
 
 > Who we are NOT designing for.
 
-General dental patients, oral surgery patients, and anyone seeking non-orthodontic dental services. This is not a hypothetical concern — misaligned traffic is already a documented, active problem caused by Pearl Sites publishing generic dental SEO content across its client base. That content has driven irrelevant phone calls and wasted ad spend. Every design and content decision in Milestone 1 should reinforce a single message: this is an orthodontics practice, not a dental office. The site must never be ambiguous on this point.
+General dental patients, oral surgery patients, and anyone seeking non-orthodontic dental services. This is not a hypothetical concern — misaligned traffic is already a documented, active problem caused by ProSites publishing generic dental SEO content across its client base. That content has driven irrelevant phone calls and wasted ad spend. Every design and content decision in Milestone 1 should reinforce a single message: this is an orthodontics practice, not a dental office. The site must never be ambiguous on this point.
 
 ---
 

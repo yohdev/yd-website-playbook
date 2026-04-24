@@ -46,7 +46,7 @@ note: Synthesized from client-provided screenshot + nav inventory + industry pat
 - About (dropdown)
 - Treatments (dropdown) — expect Braces, Clear Aligners, Adult, Teen/Child
 - New Patients (dropdown) — expect First Visit, Forms, Insurance, Financing
-- Patient Hub — logged-in area, Pearl Sites-proprietary, **migration-unknown**
+- Patient Hub — logged-in area, ProSites-proprietary, **migration-unknown**
 - More (overflow) — likely Blog, Before/After, Gallery, Contact variants
 
 ### Blog content risk (from discovery, not from crawl)
@@ -144,8 +144,8 @@ Restated from the intake summary for convenience — these are research question
 - Patient Hub: what is it, does it port to WordPress, and is dropping it acceptable for M1?
 - Analytics stack: GA4? GTM? Third-party?
 - CRM / practice-management integration: Dolphin, LocalMed, Weave, something else?
-- Domain registrar: is the domain held by Pearl Sites or by the client?
-- Existing proprietary photography: what's owned, what's stock-licensed through Pearl Sites?
+- Domain registrar: is the domain held by ProSites or by the client?
+- Existing proprietary photography: what's owned, what's stock-licensed through ProSites?
 
 ---
 

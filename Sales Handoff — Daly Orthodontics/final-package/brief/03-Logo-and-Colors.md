@@ -49,7 +49,7 @@ Sampled from the provided logo and current-site screenshot. Hex values are appro
 - **Logo display face:** appears to be a custom or commercial art-deco display serif (possibly in the family of Bodoni Poster, Playfair Display Black, or a custom mark). Treat as display-only — do NOT use for UI/body type.
 - **Heading font (propose at Phase 03):** **Open — Andrew has approval to reinvent.** Working direction: a contemporary high-contrast serif (e.g., *Fraunces*, *Playfair Display*, *DM Serif Display*) that echoes the logo's serif flavor without copying it, paired with generous display sizing.
 - **Body font (propose at Phase 03):** **Open.** Working direction: a humanist sans with good rendering at 16–18px (e.g., *Inter*, *Söhne* / *Söhne*-alike like *Manrope*, or *Source Sans 3*).
-- **Font license:** Recommend sticking to self-hosted open-source fonts (Google Fonts / Fontshare) for WordPress portability and zero ongoing cost. Confirm nothing paid is in use on the current Pearl Sites build (and if so, that it can be dropped).
+- **Font license:** Recommend sticking to self-hosted open-source fonts (Google Fonts / Fontshare) for WordPress portability and zero ongoing cost. Confirm nothing paid is in use on the current ProSites build (and if so, that it can be dropped).
 
 Typography is explicitly flagged as **open to reinvent** by Andrew (2026-04-24). The current site's mix of default system-ish headings and body is one of the weakest points of the current brand expression.
 
@@ -61,7 +61,7 @@ The current site contains a mix of stock photography and proprietary practice ph
 - Audit blog imagery — likely heavy stock.
 - A light photoshoot (half-day, 15–20 usable shots) would materially lift the brand. Suggest in scope conversation.
 
-**Asset ownership:** Confirm with Victor which images are owned outright by the practice versus licensed through Pearl Sites. Any Pearl Sites-licensed assets must be flagged before migration to avoid carrying over content the client does not own.
+**Asset ownership:** Confirm with Victor which images are owned outright by the practice versus licensed through ProSites. Any ProSites-licensed assets must be flagged before migration to avoid carrying over content the client does not own.
 
 ---
 

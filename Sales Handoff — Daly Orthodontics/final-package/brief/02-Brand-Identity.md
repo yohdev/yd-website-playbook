@@ -12,7 +12,7 @@ Client is **not happy with the brand overall** but **likes the logo and the base
 - **Locked:** primary logo mark, dark green + gold palette as starting point.
 - **Open (re-invent OK):** typography, voice/tone, imagery direction, UI treatment, web layout patterns.
 
-This is narrower than a ground-up rebrand but wider than a skin swap. The redesign should *elevate* the mark and palette — make them feel intentional, premium, and orthodontics-specific — rather than wrap them in the current Pearl Sites template.
+This is narrower than a ground-up rebrand but wider than a skin swap. The redesign should *elevate* the mark and palette — make them feel intentional, premium, and orthodontics-specific — rather than wrap them in the current ProSites template.
 
 ## Positioning
 **They are the ___ that ___ for ___.**
@@ -34,7 +34,7 @@ This is narrower than a ground-up rebrand but wider than a skin swap. The redesi
 > "We only do orthodontics — that's braces and aligners, nothing else — and we've built our practice here in Burlington to do that one thing well."
 
 **Sample sentence NOT their voice:**
-> "Whether you need braces, extractions, implants, or oral surgery, our dental family is here for all your smile needs." *(This is the Pearl Sites-style blended dental content the client explicitly wants to leave behind.)*
+> "Whether you need braces, extractions, implants, or oral surgery, our dental family is here for all your smile needs." *(This is the ProSites-style blended dental content the client explicitly wants to leave behind.)*
 
 *Note: Voice direction is YohDev's working hypothesis. Use it as a tangible straw-man at the Friday call to extract real reaction rather than abstract adjectives.*
 
@@ -55,7 +55,7 @@ This is narrower than a ground-up rebrand but wider than a skin swap. The redesi
 ---
 ## Mood & reference
 - **Sites they admire:** *Still open — Victor and Dr. Daly are reviewing YohDev portfolio examples before Friday. Capture at that call.*
-- **Sites they dislike:** https://dailyorthodontics.com (current Pearl Sites build — generic content, crowded mobile nav, stock imagery, yellow/green combo reads amateur against the serious gold logo).
+- **Sites they dislike:** https://dailyorthodontics.com (current ProSites build — generic content, crowded mobile nav, stock imagery, yellow/green combo reads amateur against the serious gold logo).
 - **Analogues outside industry:** *Open.* YohDev pre-call direction to show as reference options: restrained luxury hospitality (e.g., boutique hotel sites), modern private medicine (e.g., dermatology practice brands that look like brands), premium optometry (Warby-type retail).
 
 ---
@@ -69,4 +69,4 @@ This is narrower than a ground-up rebrand but wider than a skin swap. The redesi
 ---
 ## Words to use / avoid
 - **Use (working list):** orthodontist, braces, aligners, orthodontic treatment, specialist, Burlington NC, consult, schedule, smile.
-- **Avoid:** dental, dentist, oral surgery, extractions, implants, general dentistry — these terms are directly tied to the misdirected traffic and wrong-specialty phone calls the client has already experienced under Pearl Sites.
+- **Avoid:** dental, dentist, oral surgery, extractions, implants, general dentistry — these terms are directly tied to the misdirected traffic and wrong-specialty phone calls the client has already experienced under ProSites.

@@ -26,9 +26,9 @@ Read top-to-bottom, then skip to "How I'd run the Friday call (45 min)" at the b
 - **Engagement is a two-milestone play:** M1 = clean lift-and-shift to WordPress before June 2026 billing; M2 = brand-forward redesign, scoped separately.
 - **Logo + base colors (dark green + warm gold) are locked.** Typography, voice, layout, imagery are open — we have a real design mandate on M2, not a re-skin.
 - **Client unhappy with current brand expression, not with the mark itself.** The current site makes the logo look worse than it is; a restrained, type-led redesign has room to win quickly.
-- **The real problem isn't "prettier" — it's signal clarity.** Pearl Sites' blog content actively attracts wrong-specialty patients; M1's highest-leverage fix is ruthless content triage, not visual polish.
+- **The real problem isn't "prettier" — it's signal clarity.** ProSites' blog content actively attracts wrong-specialty patients; M1's highest-leverage fix is ruthless content triage, not visual polish.
 - **Dr. Daly is a silent decision-maker** reviewing portfolio examples with Victor before Friday. Anything we present needs to survive her reading it cold.
-- **Timeline pressure is real:** June 2026 Pearl Sites billing cutoff is a hard deadline; M1 quote should land before or during Friday's call per the "Early wins" guidance in the Client Profile.
+- **Timeline pressure is real:** June 2026 ProSites billing cutoff is a hard deadline; M1 quote should land before or during Friday's call per the "Early wins" guidance in the Client Profile.
 
 ---
 
@@ -44,12 +44,12 @@ Read top-to-bottom, then skip to "How I'd run the Friday call (45 min)" at the b
 - **Scheduling:** LocalMed-style booking widget currently on site.
 
 ### Business drivers
-- Exit Pearl Sites before **June 2026** billing cycle. Hard deadline; drove the original inquiry.
+- Exit ProSites before **June 2026** billing cycle. Hard deadline; drove the original inquiry.
 - Gain 100% ownership of domain, content, code, hosting — "ownership" came up repeatedly on the call.
-- Stop wrong-specialty traffic: Pearl Sites' SEO blog drove general-dental / oral-surgery calls that Victor had to filter with negative keywords on Google Ads.
+- Stop wrong-specialty traffic: ProSites' SEO blog drove general-dental / oral-surgery calls that Victor had to filter with negative keywords on Google Ads.
 
 ### Scope
-- **M1 (in scope, signed intent):** Lift-and-shift Pearl Sites → WordPress, preserve URLs 1:1, migrate SEO pages intact, blog content triage, mobile nav cleanup, native WP block builder (no Elementor/Divi), bi-weekly screen-share reviews.
+- **M1 (in scope, signed intent):** Lift-and-shift ProSites → WordPress, preserve URLs 1:1, migrate SEO pages intact, blog content triage, mobile nav cleanup, native WP block builder (no Elementor/Divi), bi-weekly screen-share reviews.
 - **M2 (out of M1, separately quoted):** Full brand-forward redesign. This intake doc is oriented toward M2 readiness since Andrew wants the playbook prepped — M1 is a more conventional migration play.
 
 ### Brand — what's locked
@@ -73,7 +73,7 @@ Read top-to-bottom, then skip to "How I'd run the Friday call (45 min)" at the b
 - Anti-audience: general dental / oral surgery patients — must be actively repelled by content.
 
 ### Site stack (observed from screenshot + brief)
-- Platform: Pearl Sites (proprietary CMS).
+- Platform: ProSites (proprietary CMS).
 - Nav structure: Welcome · About · Treatments · New Patients · Patient Hub · More.
 - Primary CTA: "Schedule Now" (cream pill, top-right).
 - Floating right-edge tabs: Virtual Consultation + Book Appointment (mustard-yellow — reads as third-party widget, fights the logo gold).
@@ -98,7 +98,7 @@ Warm, specialist-confident, locally grounded, plainspoken, never up-sold. Not cu
 Sample *in voice*:
 > "We only do orthodontics — braces and aligners, nothing else — and we've built our practice in Burlington to do that one thing well."
 
-Sample *NOT in voice* (the Pearl Sites style to leave behind):
+Sample *NOT in voice* (the ProSites style to leave behind):
 > "Whether you need braces, extractions, implants, or oral surgery, our dental family is here for all your smile needs."
 
 ### Personality dials (hypothesized; ask Dr. Daly to rate 1–5)
@@ -133,12 +133,12 @@ The YohDev playbook's 10 canonical questions, re-written against what we already
 1. **Most important thing the home page must communicate** → answered implicitly in 05-Target-Audience: "this is an orthodontics-only practice, serving Burlington." We just need Dr. Daly's nod.
 2. **One action** → Book a consultation / contact. Confirmed in 07-Strategy.
 3. **What's locked vs. open** → Logo + palette locked (per Andrew 2026-04-24); URLs locked for M1; M2 brand expression open.
-4. **Timeline and what's driving it** → June 2026 Pearl Sites billing cutoff. Confirmed.
-5. **How you'll know it worked (M1)** → Site live before June, Pearl Sites cancelled, Google reads it as same site, client can self-edit. Confirmed.
+4. **Timeline and what's driving it** → June 2026 ProSites billing cutoff. Confirmed.
+5. **How you'll know it worked (M1)** → Site live before June, ProSites cancelled, Google reads it as same site, client can self-edit. Confirmed.
 
 ### Need Friday input (ask these)
 1. **What's Dr. Daly's first name?** And is there a preferred title for her on the site — "Dr. Daly," "Dr. [Firstname] Daly," or something else? (Status: still unknown.)
-2. **Is "dailyorthodontics.com" the right domain long-term?** It uses "daily" not "Daly" — was that a Pearl Sites registration artifact, or intentional? This is a meaningful SEO decision. If we migrate to a matching "dalyorthodontics.com" we need to plan 301 strategy alongside lift-and-shift. *(This is arguably the single most important Friday question — it affects the migration plan.)*
+2. **Is "dailyorthodontics.com" the right domain long-term?** It uses "daily" not "Daly" — was that a ProSites registration artifact, or intentional? This is a meaningful SEO decision. If we migrate to a matching "dalyorthodontics.com" we need to plan 301 strategy alongside lift-and-shift. *(This is arguably the single most important Friday question — it affects the migration plan.)*
 3. **What tone must this absolutely avoid?** We've framed "cold/clinical" and "cutesy/kid-first" as avoids — do they agree? Anything else?
 4. **Reference reaction, not reference discovery.** Show the three-bucket direction above and ask which bucket to eliminate first. Goal: walk away with one direction to execute in M2, not a mood board.
 5. **Photography plan.** Willing to do a half-day shoot of the practice + doctor for M2, or does that need to come later? The answer changes whether M2's homepage can lead with photography or needs to lead typographically.
@@ -151,9 +151,9 @@ The YohDev playbook's 10 canonical questions, re-written against what we already
 ### Infrastructure gaps still to fill (lower-stakes; can be email follow-up)
 - Analytics stack (GA4? Google Tag Manager? Anything else?)
 - CRM embed or patient-management integration (Dolphin? LocalMed? Weave?)
-- Forms platform currently in use on Pearl Sites
+- Forms platform currently in use on ProSites
 - Chat widget (visible accessibility icon bottom-left; no chat observed)
-- Domain registrar — is the domain held by Pearl Sites or by the client?
+- Domain registrar — is the domain held by ProSites or by the client?
 - Font license on the current site — anything paid we'd need to drop?
 
 ---
@@ -162,7 +162,7 @@ The YohDev playbook's 10 canonical questions, re-written against what we already
 
 1. **Domain spelling ("daily" vs. "Daly")** is a live inconsistency between the brand mark and the URL. Any fix creates 301 work and possible short-term ranking disruption — do not promise a clean fix inside M1's timeline without digging in first.
 2. **Double-pay anxiety (explicit in 08-Client-Profile).** Victor has already surfaced this. The M1 → M2 framing has to be positioned as "pay for ownership, then pay for brand" — not "pay now, pay again later."
-3. **Patient Hub migration unknown.** It may be a proprietary Pearl Sites feature. If it doesn't port to WordPress, we need a decision at Friday: replace it, drop it, or delay M1 go-live. This is the single biggest technical risk to the June deadline.
+3. **Patient Hub migration unknown.** It may be a proprietary ProSites feature. If it doesn't port to WordPress, we need a decision at Friday: replace it, drop it, or delay M1 go-live. This is the single biggest technical risk to the June deadline.
 4. **Mustard yellow on the current site ≠ the logo gold.** The current brand expression is using a "close but wrong" accent that dulls the logo. Worth naming out loud on the call so the redesign isn't perceived as changing the color — it's restoring the correct one.
 5. **Dr. Daly seeing us for the first time.** Everything in this doc should survive her reading it with Victor on a Thursday evening before the Friday call. Keep language specific, not salesy.
 

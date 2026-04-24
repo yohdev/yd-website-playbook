@@ -60,4 +60,4 @@
 
 ---
 
-*Anti-audience note for dev and SEO: General dental patients, oral surgery seekers, and non-orthodontic inquiries are an active problem documented in the discovery call. Pearl Sites' generic content has driven wrong-specialty traffic and forced the client to run negative keywords in Google Ads. Milestone 1 content decisions and any future blog strategy must be filtered against this anti-audience explicitly.*
+*Anti-audience note for dev and SEO: General dental patients, oral surgery seekers, and non-orthodontic inquiries are an active problem documented in the discovery call. ProSites' generic content has driven wrong-specialty traffic and forced the client to run negative keywords in Google Ads. Milestone 1 content decisions and any future blog strategy must be filtered against this anti-audience explicitly.*
