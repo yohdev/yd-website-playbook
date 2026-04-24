@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+*.log
+
+# State files
+.yohdev-state.json
+*.tmp
+
+# Client data (keep these local)
+Sales Handoff — */
+output/
+client-data/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment variables
+.env
+.env.local
+
+# Surge
+.surge
+
+# Archive
+.archive/

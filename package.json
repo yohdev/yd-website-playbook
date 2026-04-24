@@ -1,0 +1,38 @@
+{
+  "name": "yohdev-website-refresh",
+  "version": "0.1.0",
+  "description": "YohDev Website Refresh - AI-Assisted Website Playbook Generator",
+  "main": ".claude/skills/yohdev-website-refresh/run-skill.js",
+  "scripts": {
+    "skill": "node .claude/skills/yohdev-website-refresh/run-skill.js",
+    "check-handoff": "bash .claude/skills/yohdev-website-refresh/scripts/check-handoff.sh",
+    "new-client": "bash .claude/skills/yohdev-website-refresh/scripts/new-client.sh",
+    "screenshot": "bash .claude/skills/yohdev-website-refresh/scripts/screenshot-current-site.sh",
+    "state": "node .claude/skills/yohdev-website-refresh/scripts/state-manager.js",
+    "state:status": "node .claude/skills/yohdev-website-refresh/scripts/state-manager.js status",
+    "state:reset": "node .claude/skills/yohdev-website-refresh/scripts/state-manager.js reset",
+    "phase:01": "echo 'Starting Phase 01 - Intake' && node .claude/skills/yohdev-website-refresh/scripts/state-manager.js start-phase 1",
+    "phase:02": "echo 'Starting Phase 02 - Research' && node .claude/skills/yohdev-website-refresh/scripts/state-manager.js start-phase 2",
+    "phase:03": "echo 'Starting Phase 03 - System' && node .claude/skills/yohdev-website-refresh/scripts/state-manager.js start-phase 3",
+    "phase:04": "echo 'Starting Phase 04 - Home Page' && node .claude/skills/yohdev-website-refresh/scripts/state-manager.js start-phase 4",
+    "phase:05": "echo 'Starting Phase 05 - Style Guide' && node .claude/skills/yohdev-website-refresh/scripts/state-manager.js start-phase 5",
+    "phase:06": "echo 'Starting Phase 06 - Package' && node .claude/skills/yohdev-website-refresh/scripts/state-manager.js start-phase 6",
+    "continue": "node .claude/skills/yohdev-website-refresh/scripts/state-manager.js next-phase && npm run skill",
+    "build": "bash scripts/build.sh",
+    "serve": "bash scripts/serve.sh",
+    "deploy:preview": "npm run build && npx surge ./dist --domain yohdev-preview.surge.sh"
+  },
+  "keywords": [
+    "yohdev",
+    "website",
+    "refresh",
+    "playbook",
+    "claude",
+    "skill"
+  ],
+  "author": "YohDev",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
