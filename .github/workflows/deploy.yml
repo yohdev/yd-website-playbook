@@ -134,45 +134,42 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-  deploy-preview:
+  comment-preview:
     if: github.event_name == 'pull_request'
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: preview-build
-          path: ./dist
-
-      - name: Deploy to Surge
-        id: surge
-        run: |
-          npm install -g surge
-          # Generate unique preview URL using PR number
-          PREVIEW_URL="yohdev-pr-${{ github.event.pull_request.number }}.surge.sh"
-          surge ./dist $PREVIEW_URL --token ${{ secrets.SURGE_TOKEN }}
-          echo "preview_url=https://$PREVIEW_URL" >> $GITHUB_OUTPUT
-
-      - name: Comment PR with preview link
+      - name: Comment PR with build status
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const preview_url = '${{ steps.surge.outputs.preview_url }}';
-            const body = `🚀 **Preview Deployment Ready!**
+            const runId = '${{ github.run_id }}';
+            const actor = '${{ github.actor }}';
+            const prNumber = '${{ github.event.pull_request.number }}';
+            const repoUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}`;
+            const artifactUrl = `${repoUrl}/actions/runs/${runId}`;
             
-            Preview URL: ${preview_url}
+            const body = `🔨 **Build Complete!**
+            
+            Your PR build has finished successfully. 
+            
+            **📦 Preview Artifacts:**
+            - [Download build artifacts](${artifactUrl}) to test locally
+            - Run \`npm run serve\` in the downloaded \`dist/\` folder
+            
+            **🚀 To deploy a preview:**
+            1. Download the build artifact
+            2. Test locally with \`npm run serve\`
+            3. When ready, merge to main for production deployment
+            
+            **Production URL:** https://${context.repo.owner}.github.io/${context.repo.repo}/
             
             ---
             
-            **Files in preview:**
-            - Homepage: ${preview_url}
-            - Style Guide: ${preview_url}/style-guide.html
-            - Playbook: ${preview_url}/playbook.html
-            - Documentation: ${preview_url}/docs/
-            
-            This preview will be automatically updated when you push new commits.`;
+            Built by @${actor} • [View workflow run](${artifactUrl})`;
             
             // Find existing comment
             const { data: comments } = await github.rest.issues.listComments({
@@ -183,7 +180,7 @@ jobs:
             
             const botComment = comments.find(comment => 
               comment.user.type === 'Bot' && 
-              comment.body.includes('Preview Deployment Ready')
+              comment.body.includes('Build Complete!')
             );
             
             if (botComment) {

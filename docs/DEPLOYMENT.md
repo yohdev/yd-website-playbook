@@ -9,13 +9,10 @@
    - Under "Build and deployment", select "GitHub Actions" as the source
    - No other configuration needed - the workflow handles everything
 
-2. **Set up Surge.sh for PR previews (Optional):**
-   - Sign up at [surge.sh](https://surge.sh)
-   - Get your token: `surge token`
-   - Add as repository secret:
-     - Go to Settings → Secrets and variables → Actions
-     - Add new secret: `SURGE_TOKEN`
-     - Paste your surge token
+2. **PR previews are automatic:**
+   - Uses GitHub Pages environments
+   - Each PR gets its own preview deployment
+   - No additional setup required
 
 ### Deployment Flow
 
@@ -37,7 +34,7 @@ git push origin main
 
 When you open a PR:
 1. GitHub Actions builds a preview
-2. Deploys to Surge.sh (if configured)
+2. Deploys to GitHub Pages environment
 3. Comments on PR with preview link
 4. Updates on each new commit
 
@@ -114,7 +111,7 @@ dist/
 The GitHub Actions workflow (`.github/workflows/deploy.yml`) handles:
 
 - **Main branch**: Deploy to GitHub Pages
-- **Pull requests**: Deploy preview to Surge.sh
+- **Pull requests**: Deploy preview to GitHub Pages environments
 - **Smart building**: Detects client vs reference content
 - **PR comments**: Automatic preview links
 
@@ -125,10 +122,11 @@ The GitHub Actions workflow (`.github/workflows/deploy.yml`) handles:
 - Verify workflow has `pages: write` permission
 - Check Actions tab for build errors
 
-### Surge preview not working
-- Verify `SURGE_TOKEN` secret is set
-- Check Actions logs for Surge errors
-- Ensure surge.sh account is active
+### PR preview not working
+- Check GitHub Pages is enabled in repository settings
+- Verify workflow has proper permissions
+- Check Actions logs for deployment errors
+- Ensure PR preview environment is created
 
 ### Build failing
 - Run `npm run build` locally to test
@@ -157,7 +155,7 @@ To use a custom domain with GitHub Pages:
 
 - Never commit sensitive client data
 - Use environment variables for API keys
-- Keep `SURGE_TOKEN` in GitHub Secrets
+- Use GitHub's built-in deployment environments
 - Review PR previews before sharing
 
 ## Monitoring
