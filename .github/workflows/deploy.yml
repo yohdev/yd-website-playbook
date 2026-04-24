@@ -140,16 +140,7 @@ jobs:
     if: github.event_name == 'push' && (startsWith(github.ref, 'refs/heads/client-') || github.ref == 'refs/heads/daly')
     needs: build
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pages: write
-      id-token: write
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GH_PAT }}
-          
       - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
@@ -160,75 +151,19 @@ jobs:
         id: branch
         run: echo "name=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
         
-      - name: Deploy to GitHub Pages branch subdirectory
+      - name: Deploy to Surge.sh
         run: |
-          # Configure git
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          # Install surge
+          npm install -g surge
           
-          # Clone or checkout gh-pages branch
-          git fetch origin gh-pages:gh-pages 2>/dev/null || true
-          
-          # Create a temporary directory for gh-pages
-          mkdir -p /tmp/gh-pages-deploy
-          
-          # If gh-pages exists, clone it; otherwise create new
-          if git show-ref --verify --quiet refs/remotes/origin/gh-pages; then
-            git worktree add /tmp/gh-pages-deploy gh-pages
-          else
-            git worktree add --detach /tmp/gh-pages-deploy
-            cd /tmp/gh-pages-deploy
-            git checkout --orphan gh-pages
-            git rm -rf . 2>/dev/null || true
-            cd -
-          fi
-          
-          # Create branch subdirectory and copy files
-          mkdir -p /tmp/gh-pages-deploy/branches/${{ steps.branch.outputs.name }}
-          cp -r dist/* /tmp/gh-pages-deploy/branches/${{ steps.branch.outputs.name }}/
-          
-          # Ensure .nojekyll exists at root
-          touch /tmp/gh-pages-deploy/.nojekyll
-          
-          # Create index.html at root if it doesn't exist
-          if [ ! -f /tmp/gh-pages-deploy/index.html ]; then
-            cat > /tmp/gh-pages-deploy/index.html << 'EOF'
-          <!DOCTYPE html>
-          <html>
-          <head>
-            <meta charset="UTF-8">
-            <title>YohDev Website Playbook - Branch Previews</title>
-            <style>
-              body { font-family: system-ui; max-width: 800px; margin: 0 auto; padding: 2rem; }
-              h1 { color: #0ea5e9; }
-              .branch { margin: 1rem 0; }
-              a { color: #0ea5e9; }
-            </style>
-          </head>
-          <body>
-            <h1>YohDev Website Playbook</h1>
-            <p>Branch preview deployments</p>
-            <div class="branch">
-              <a href="branches/${{ steps.branch.outputs.name }}/">→ ${{ steps.branch.outputs.name }} branch preview</a>
-            </div>
-          </body>
-          </html>
-          EOF
-          fi
-          
-          # Commit and push
-          cd /tmp/gh-pages-deploy
-          git add .
-          git commit -m "Deploy branch ${{ steps.branch.outputs.name }} - ${{ github.sha }}" || echo "No changes to commit"
-          git push origin gh-pages
-          
-          # Clean up worktree
-          cd -
-          git worktree remove /tmp/gh-pages-deploy
+          # Deploy to surge (no authentication needed for public sites)
+          surge ./dist ${{ steps.branch.outputs.name }}-yohdev.surge.sh --token ${{ secrets.SURGE_TOKEN || 'dummy' }} 2>/dev/null || \
+          surge ./dist ${{ steps.branch.outputs.name }}-yohdev.surge.sh
           
       - name: Output deployment URL
         run: |
-          echo "🚀 Branch deployed to: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/branches/${{ steps.branch.outputs.name }}/"
+          echo "🚀 Branch deployed to: https://${{ steps.branch.outputs.name }}-yohdev.surge.sh/"
+          echo "View your site at: https://${{ steps.branch.outputs.name }}-yohdev.surge.sh/"
 
   comment-preview:
     if: github.event_name == 'pull_request'
@@ -261,9 +196,9 @@ jobs:
             if (isClientBranch) {
               body += `
             **🌐 Branch Preview URL:**
-            https://${context.repo.owner}.github.io/${context.repo.repo}/branches/${branchName}/
+            https://${branchName}-yohdev.surge.sh/
             
-            _Note: The preview will be deployed to GitHub Pages when you push to the \`${branchName}\` branch._
+            _Note: The preview will be deployed to Surge.sh when you push to the \`${branchName}\` branch._
             `;
             }
             
