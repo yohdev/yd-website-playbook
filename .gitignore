@@ -9,9 +9,8 @@ dist/
 .yohdev-state.json
 *.tmp
 
-# Client data (keep these local)
-Sales Handoff — */
-output/
+# Client data (keep these local on main branch)
+# Sales Handoff — */  # Commented out for daly branch to track client files
 client-data/
 
 # OS files

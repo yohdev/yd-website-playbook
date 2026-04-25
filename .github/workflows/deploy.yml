@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+      - 'daly'
+      - 'client-*'
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -115,8 +117,8 @@ jobs:
         with:
           path: ./dist
 
-      - name: Upload artifact for PR preview
-        if: github.event_name == 'pull_request'
+      - name: Upload artifact for PR preview and branch deployment
+        if: github.event_name == 'pull_request' || startsWith(github.ref, 'refs/heads/client-') || github.ref == 'refs/heads/daly'
         uses: actions/upload-artifact@v4
         with:
           name: preview-build
@@ -133,6 +135,94 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  deploy-branch:
+    if: github.event_name == 'push' && (startsWith(github.ref, 'refs/heads/client-') || github.ref == 'refs/heads/daly')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_PAT }}
+          fetch-depth: 0
+          
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: preview-build
+          path: ./dist
+          
+      - name: Get branch name
+        id: branch
+        run: echo "name=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
+        
+      - name: Deploy to GitHub Pages subdirectory
+        run: |
+          # Configure git
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          # Fetch or create gh-pages branch
+          git fetch origin gh-pages:refs/remotes/origin/gh-pages || true
+          
+          # Check out gh-pages branch
+          if git show-ref --quiet refs/remotes/origin/gh-pages; then
+            git checkout gh-pages
+          else
+            git checkout --orphan gh-pages
+            git rm -rf . || true
+          fi
+          
+          # Create branch directory
+          mkdir -p branches/${{ steps.branch.outputs.name }}
+          
+          # Copy the built files
+          cp -r dist/* branches/${{ steps.branch.outputs.name }}/
+          
+          # Create root index if it doesn't exist
+          if [ ! -f index.html ]; then
+            cat > index.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="UTF-8">
+            <title>YohDev Website Playbook - Previews</title>
+            <style>
+              body { font-family: system-ui; padding: 2rem; max-width: 800px; margin: 0 auto; }
+              h1 { color: #0ea5e9; }
+              ul { list-style: none; padding: 0; }
+              li { margin: 1rem 0; }
+              a { color: #0ea5e9; text-decoration: none; font-size: 1.1rem; }
+              a:hover { text-decoration: underline; }
+            </style>
+          </head>
+          <body>
+            <h1>YohDev Website Playbook</h1>
+            <h2>Branch Previews</h2>
+            <ul>
+              <li>📁 <a href="branches/${{ steps.branch.outputs.name }}/">${{ steps.branch.outputs.name }} branch</a></li>
+            </ul>
+          </body>
+          </html>
+          EOF
+          fi
+          
+          # Add .nojekyll to prevent Jekyll processing
+          touch .nojekyll
+          
+          # Commit and push
+          git add -A
+          git commit -m "Deploy branch ${{ steps.branch.outputs.name }} - ${{ github.sha }}" || echo "No changes"
+          git push origin gh-pages
+          
+      - name: Output deployment URL
+        run: |
+          echo "🚀 Branch deployed to: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/branches/${{ steps.branch.outputs.name }}/"
 
   comment-preview:
     if: github.event_name == 'pull_request'
@@ -152,10 +242,26 @@ jobs:
             const repoUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}`;
             const artifactUrl = `${repoUrl}/actions/runs/${runId}`;
             
-            const body = `🔨 **Build Complete!**
+            // Get branch name from PR
+            const branchName = context.payload.pull_request.head.ref;
+            const isClientBranch = branchName === 'daly' || branchName.startsWith('client-');
+            
+            let body = `🔨 **Build Complete!**
             
             Your PR build has finished successfully. 
+            `;
             
+            // Add branch preview URL if this is a client branch
+            if (isClientBranch) {
+              body += `
+            **🌐 Branch Preview URL:**
+            https://${context.repo.owner}.github.io/${context.repo.repo}/branches/${branchName}/
+            
+            _Note: The preview will be deployed to GitHub Pages when you push to the \`${branchName}\` branch._
+            `;
+            }
+            
+            body += `
             **📦 Preview Artifacts:**
             - [Download build artifacts](${artifactUrl}) to test locally
             - Run \`npm run serve\` in the downloaded \`dist/\` folder

@@ -1,0 +1,976 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Daly Orthodontics — Braces and aligners in Burlington, NC</title>
+<meta name="description" content="Daly Orthodontics is a specialty orthodontic practice in Burlington, North Carolina. Braces, clear aligners, and confident smiles for adults and families — that's all we do." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    /* Brand */
+    --daly-green:#1C3A27;
+    --daly-green-deep:#122619;
+    --daly-green-soft:#2A4F37;
+    --daly-gold:#C9A633;
+    --daly-gold-deep:#A8871F;
+    --daly-gold-soft:#E4CB73;
+    /* Neutrals */
+    --obsidian:#0B0B0B;
+    --ink:#1A1A1A;
+    --ink-2:#3A3A3A;
+    --ink-3:#6B6B6B;
+    --line:#E4DECB;
+    --line-2:#D4CEB9;
+    --cream:#F2EADB;
+    --cream-soft:#F7F1E4;
+    --paper:#FFFFFF;
+    /* Scrims */
+    --scrim-on-green:rgba(11,11,11,0.35);
+    /* Shadows */
+    --shadow-1:0 1px 2px rgba(11,11,11,0.04), 0 2px 8px rgba(11,11,11,0.04);
+    --shadow-2:0 4px 12px rgba(11,11,11,0.08), 0 8px 24px rgba(11,11,11,0.06);
+    --shadow-focus:0 0 0 3px rgba(201,166,51,0.45);
+    /* Layout */
+    --max:1200px;
+    --pad-d:48px;
+    --pad-m:20px;
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Inter",system-ui,sans-serif;
+    font-size:17px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  h1,h2,h3,h4,h5{
+    font-family:"Fraunces",Georgia,serif;
+    font-weight:500;
+    letter-spacing:-0.015em;
+    color:var(--ink);
+    margin:0;
+    font-optical-sizing:auto;
+  }
+  h1{font-size:56px;line-height:1.04;letter-spacing:-0.025em}
+  h2{font-size:40px;line-height:1.1;letter-spacing:-0.02em}
+  h3{font-size:28px;line-height:1.2;font-weight:600}
+  h4{font-size:22px;line-height:1.3;font-weight:600}
+  p{margin:0 0 1em 0;color:var(--ink-2)}
+  a{color:var(--daly-green);text-decoration:none;border-bottom:1px solid transparent;transition:border-color 160ms}
+  a:hover{border-bottom-color:var(--daly-gold)}
+  a:focus-visible{outline:none;box-shadow:var(--shadow-focus);border-radius:2px}
+
+  .container{max-width:var(--max);margin:0 auto;padding:0 var(--pad-d)}
+  @media (max-width:720px){
+    .container{padding:0 var(--pad-m)}
+    h1{font-size:36px}
+    h2{font-size:28px}
+    h3{font-size:22px}
+    body{font-size:16px}
+  }
+
+  .eyebrow{
+    font-family:"Inter",sans-serif;
+    font-size:12px;
+    font-weight:500;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--daly-gold-deep);
+    margin:0 0 16px 0;
+    display:inline-block;
+  }
+  .hero .eyebrow,.on-green .eyebrow{color:var(--daly-gold-soft)}
+
+  /* Button system */
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    font-family:"Inter",sans-serif;
+    font-weight:600;
+    font-size:16px;
+    padding:16px 28px;
+    border-radius:999px;
+    border:1.5px solid transparent;
+    cursor:pointer;
+    transition:all 200ms cubic-bezier(0.2,0.8,0.2,1);
+    text-decoration:none;
+    white-space:nowrap;
+    min-height:52px;
+  }
+  .btn-primary{
+    background:var(--cream);
+    color:var(--daly-green);
+    border-color:var(--cream);
+  }
+  .btn-primary:hover{
+    background:var(--paper);
+    border-color:var(--paper);
+    transform:translateY(-1px);
+    box-shadow:var(--shadow-2);
+  }
+  .btn-primary-dark{
+    background:var(--daly-green);
+    color:var(--cream);
+    border-color:var(--daly-green);
+  }
+  .btn-primary-dark:hover{
+    background:var(--daly-green-deep);
+    border-color:var(--daly-green-deep);
+    transform:translateY(-1px);
+  }
+  .btn-secondary{
+    background:transparent;
+    color:var(--daly-green);
+    border-color:var(--daly-green);
+  }
+  .btn-secondary:hover{
+    background:var(--daly-green);
+    color:var(--cream);
+  }
+  .btn-ghost{
+    background:transparent;
+    color:var(--cream);
+    border-color:rgba(242,234,219,0.4);
+  }
+  .btn-ghost:hover{
+    border-color:var(--cream);
+    background:rgba(242,234,219,0.08);
+  }
+  .btn .arrow{transition:transform 200ms}
+  .btn:hover .arrow{transform:translateX(4px)}
+
+  /* Announcement / utility bar */
+  .utility{
+    background:var(--obsidian);
+    color:var(--cream-soft);
+    font-size:13px;
+    padding:10px 0;
+  }
+  .utility .container{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .utility a{color:var(--cream-soft);border:none}
+  .utility a:hover{color:var(--daly-gold)}
+  .utility .left,.utility .right{display:flex;align-items:center;gap:20px}
+  .utility .dot{width:4px;height:4px;border-radius:50%;background:var(--daly-gold);display:inline-block;margin:0 4px}
+  @media (max-width:720px){
+    .utility .left{display:none}
+    .utility .container{justify-content:center}
+  }
+
+  /* Primary nav */
+  .nav{
+    background:var(--daly-green);
+    color:var(--cream);
+    padding:20px 0;
+    position:sticky;
+    top:0;
+    z-index:100;
+    border-bottom:1px solid rgba(242,234,219,0.08);
+  }
+  .nav .container{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:32px;
+  }
+  .logo{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    color:var(--cream);
+    text-decoration:none;
+    border:none;
+  }
+  .logo .mark{
+    font-family:"Fraunces",serif;
+    font-size:40px;
+    font-weight:600;
+    color:var(--daly-gold);
+    line-height:1;
+    font-style:italic;
+    letter-spacing:-0.03em;
+  }
+  .logo .wordmark{display:flex;flex-direction:column;line-height:1.1}
+  .logo .wordmark .name{
+    font-family:"Fraunces",serif;
+    font-size:22px;
+    font-weight:600;
+    color:var(--daly-gold);
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+  }
+  .logo .wordmark .sub{
+    font-family:"Inter",sans-serif;
+    font-size:10px;
+    font-weight:500;
+    color:var(--cream);
+    letter-spacing:0.3em;
+    text-transform:uppercase;
+    margin-top:2px;
+  }
+  .nav-links{
+    display:flex;
+    align-items:center;
+    gap:32px;
+    list-style:none;
+    margin:0;
+    padding:0;
+  }
+  .nav-links a{
+    color:var(--cream);
+    font-size:15px;
+    font-weight:500;
+    border:none;
+    padding:6px 0;
+    position:relative;
+  }
+  .nav-links a:hover{color:var(--daly-gold)}
+  .nav-links a.active:after{
+    content:"";
+    position:absolute;
+    left:0;right:0;bottom:-6px;
+    height:2px;
+    background:var(--daly-gold);
+  }
+  .nav-cta{display:flex;gap:12px;align-items:center}
+  .nav .btn{padding:12px 22px;font-size:14px;min-height:44px}
+  .mobile-toggle{display:none;background:none;border:none;color:var(--cream);font-size:24px;cursor:pointer;padding:4px 8px}
+  @media (max-width:900px){
+    .nav-links{display:none}
+    .mobile-toggle{display:block}
+    .nav-cta .btn-secondary{display:none}
+    .logo .mark{font-size:32px}
+    .logo .wordmark .name{font-size:18px}
+  }
+
+  /* Hero */
+  .hero{
+    background:var(--daly-green);
+    color:var(--cream);
+    padding:96px 0 112px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero:before{
+    content:"";
+    position:absolute;
+    top:-40%;
+    right:-20%;
+    width:60%;
+    height:140%;
+    background:radial-gradient(ellipse at center, rgba(201,166,51,0.08) 0%, transparent 60%);
+    pointer-events:none;
+  }
+  .hero h1{
+    color:var(--cream);
+    max-width:14ch;
+    margin-bottom:24px;
+  }
+  .hero h1 em{
+    font-style:italic;
+    color:var(--daly-gold-soft);
+    font-weight:400;
+  }
+  .hero .lede{
+    font-size:20px;
+    color:rgba(242,234,219,0.88);
+    max-width:52ch;
+    margin:0 0 40px 0;
+    line-height:1.55;
+  }
+  .hero .ctas{display:flex;gap:16px;flex-wrap:wrap}
+  .hero .trust{
+    margin-top:56px;
+    padding-top:32px;
+    border-top:1px solid rgba(242,234,219,0.15);
+    display:flex;
+    gap:48px;
+    flex-wrap:wrap;
+    color:rgba(242,234,219,0.75);
+    font-size:14px;
+  }
+  .hero .trust .tr-item{display:flex;align-items:center;gap:10px}
+  .hero .trust .tr-item strong{color:var(--cream);font-weight:600}
+  @media (max-width:720px){
+    .hero{padding:64px 0 80px}
+    .hero .lede{font-size:17px}
+    .hero .trust{gap:20px 28px;margin-top:40px}
+  }
+
+  /* Section scaffold */
+  .section{padding:96px 0}
+  .section-tight{padding:64px 0}
+  @media (max-width:720px){
+    .section{padding:64px 0}
+    .section-tight{padding:48px 0}
+  }
+  .on-cream{background:var(--cream-soft)}
+  .on-green{background:var(--daly-green);color:var(--cream)}
+  .on-green h2,.on-green h3,.on-green h4{color:var(--cream)}
+  .on-green p{color:rgba(242,234,219,0.82)}
+
+  .section-head{max-width:640px;margin:0 auto 64px;text-align:center}
+  .section-head.left{text-align:left;margin-left:0}
+  .section-head h2{margin-bottom:16px}
+  .section-head p{color:var(--ink-2);font-size:19px}
+  .on-green .section-head p{color:rgba(242,234,219,0.8)}
+
+  /* What we do (services) */
+  .services{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:24px;
+  }
+  .service-card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:40px 32px;
+    position:relative;
+    transition:all 200ms cubic-bezier(0.2,0.8,0.2,1);
+  }
+  .service-card:hover{
+    border-color:var(--daly-gold);
+    box-shadow:var(--shadow-2);
+    transform:translateY(-2px);
+  }
+  .service-card .num{
+    font-family:"Fraunces",serif;
+    font-size:14px;
+    font-weight:500;
+    color:var(--daly-gold-deep);
+    letter-spacing:0.06em;
+    margin-bottom:24px;
+    font-style:italic;
+  }
+  .service-card h3{
+    font-size:24px;
+    margin-bottom:12px;
+    color:var(--daly-green);
+  }
+  .service-card p{font-size:16px;margin-bottom:24px}
+  .service-card .link{
+    color:var(--daly-green);
+    font-weight:600;
+    font-size:15px;
+    border-bottom:1px solid var(--daly-gold);
+    padding-bottom:2px;
+  }
+  .service-card .link:hover{color:var(--daly-gold-deep)}
+  @media (max-width:900px){
+    .services{grid-template-columns:1fr;gap:16px}
+  }
+
+  /* "Orthodontics only" — the differentiator block */
+  .only{
+    background:var(--daly-green);
+    color:var(--cream);
+    padding:112px 0;
+    position:relative;
+  }
+  .only-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:80px;
+    align-items:center;
+  }
+  .only h2{color:var(--cream);margin-bottom:24px;max-width:14ch}
+  .only p{color:rgba(242,234,219,0.85);font-size:18px}
+  .only .compare{
+    background:rgba(242,234,219,0.05);
+    border:1px solid rgba(242,234,219,0.14);
+    border-radius:16px;
+    padding:40px;
+  }
+  .only .compare-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:32px;
+    padding:20px 0;
+    border-bottom:1px solid rgba(242,234,219,0.1);
+  }
+  .only .compare-row:last-child{border-bottom:none}
+  .only .compare-row:first-child{padding-top:0}
+  .only .compare-head{
+    font-family:"Inter",sans-serif;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--daly-gold-soft);
+    margin-bottom:4px;
+  }
+  .only .compare-row .x{color:rgba(242,234,219,0.55)}
+  .only .compare-row .x strong{color:var(--cream);font-weight:500}
+  .only .compare-row .check{color:var(--cream)}
+  .only .compare-row .check strong{color:var(--daly-gold-soft);font-weight:600}
+  @media (max-width:900px){
+    .only{padding:80px 0}
+    .only-grid{grid-template-columns:1fr;gap:40px}
+    .only .compare{padding:28px}
+  }
+
+  /* Doctor / practice intro */
+  .doctor{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+  .doctor .photo-frame{
+    aspect-ratio:4/5;
+    background:linear-gradient(135deg, var(--daly-green) 0%, var(--daly-green-soft) 100%);
+    border-radius:12px;
+    position:relative;
+    overflow:hidden;
+  }
+  .doctor .photo-frame .ph-label{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    color:rgba(242,234,219,0.55);
+    font-size:13px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    text-align:center;
+    padding:20px;
+  }
+  .doctor .photo-frame .ph-label strong{
+    font-family:"Fraunces",serif;
+    text-transform:none;
+    letter-spacing:-0.01em;
+    font-size:16px;
+    font-weight:500;
+    color:rgba(242,234,219,0.75);
+    margin-bottom:8px;
+    font-style:italic;
+  }
+  .doctor h2{margin-bottom:20px}
+  .doctor .pull{
+    font-family:"Fraunces",serif;
+    font-size:24px;
+    font-weight:400;
+    font-style:italic;
+    line-height:1.4;
+    color:var(--daly-green);
+    padding-left:20px;
+    border-left:2px solid var(--daly-gold);
+    margin:32px 0;
+  }
+  @media (max-width:900px){
+    .doctor{grid-template-columns:1fr;gap:40px}
+    .doctor .photo-frame{aspect-ratio:1;max-width:400px}
+  }
+
+  /* Process / steps */
+  .steps{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:32px;
+    counter-reset:step;
+  }
+  .step{position:relative;padding-top:20px}
+  .step:before{
+    counter-increment:step;
+    content:counter(step,decimal-leading-zero);
+    font-family:"Fraunces",serif;
+    font-size:48px;
+    font-weight:400;
+    font-style:italic;
+    color:var(--daly-gold);
+    display:block;
+    margin-bottom:16px;
+    line-height:1;
+  }
+  .step h4{
+    color:var(--daly-green);
+    margin-bottom:8px;
+    font-size:20px;
+  }
+  .step p{font-size:15px;margin:0;color:var(--ink-2)}
+  @media (max-width:900px){
+    .steps{grid-template-columns:repeat(2,1fr);gap:32px 24px}
+  }
+  @media (max-width:560px){
+    .steps{grid-template-columns:1fr}
+  }
+
+  /* Testimonials */
+  .testimonial-band{background:var(--cream);padding:96px 0}
+  .testimonial{
+    max-width:760px;
+    margin:0 auto;
+    text-align:center;
+  }
+  .testimonial .stars{color:var(--daly-gold);font-size:18px;letter-spacing:4px;margin-bottom:24px}
+  .testimonial blockquote{
+    font-family:"Fraunces",serif;
+    font-size:32px;
+    font-weight:400;
+    line-height:1.3;
+    color:var(--daly-green);
+    margin:0 0 32px 0;
+    letter-spacing:-0.015em;
+  }
+  .testimonial .cite{
+    font-family:"Inter",sans-serif;
+    font-size:14px;
+    color:var(--ink-2);
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    font-weight:500;
+  }
+  .testimonial .cite strong{color:var(--daly-green);font-weight:600}
+  @media (max-width:720px){
+    .testimonial blockquote{font-size:24px}
+  }
+
+  /* FAQ */
+  .faq-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:48px 80px;
+    max-width:var(--max);
+    margin:0 auto;
+  }
+  .faq-item h4{
+    color:var(--daly-green);
+    margin-bottom:12px;
+    font-size:19px;
+  }
+  .faq-item p{font-size:16px;color:var(--ink-2);margin:0}
+  @media (max-width:900px){
+    .faq-grid{grid-template-columns:1fr;gap:32px}
+  }
+
+  /* Final CTA */
+  .final-cta{
+    background:var(--daly-green);
+    color:var(--cream);
+    padding:96px 0;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .final-cta:before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(ellipse at 20% 30%, rgba(201,166,51,0.1) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 70%, rgba(201,166,51,0.06) 0%, transparent 50%);
+    pointer-events:none;
+  }
+  .final-cta .inner{position:relative}
+  .final-cta h2{color:var(--cream);max-width:18ch;margin:0 auto 20px}
+  .final-cta p{color:rgba(242,234,219,0.82);font-size:19px;max-width:52ch;margin:0 auto 40px}
+  .final-cta .ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+
+  /* Footer */
+  .foot{
+    background:var(--obsidian);
+    color:var(--cream-soft);
+    padding:80px 0 40px;
+    font-size:15px;
+  }
+  .foot .cols{
+    display:grid;
+    grid-template-columns:1.4fr 1fr 1fr 1fr;
+    gap:48px;
+    margin-bottom:64px;
+  }
+  .foot .brand-col .logo{margin-bottom:24px}
+  .foot .brand-col p{color:rgba(242,234,219,0.7);font-size:15px;max-width:32ch;margin-bottom:20px}
+  .foot h5{
+    font-family:"Inter",sans-serif;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--daly-gold);
+    margin:0 0 20px;
+  }
+  .foot ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+  .foot a{color:rgba(242,234,219,0.8);border:none;font-size:15px}
+  .foot a:hover{color:var(--daly-gold)}
+  .foot .social{display:flex;gap:12px;margin-top:8px}
+  .foot .social a{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:40px;height:40px;
+    border:1px solid rgba(242,234,219,0.2);
+    border-radius:50%;
+    transition:all 160ms;
+  }
+  .foot .social a:hover{border-color:var(--daly-gold);background:rgba(201,166,51,0.1);color:var(--daly-gold)}
+  .foot .bottom{
+    border-top:1px solid rgba(242,234,219,0.12);
+    padding-top:32px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:16px;
+    color:rgba(242,234,219,0.55);
+    font-size:13px;
+  }
+  @media (max-width:900px){
+    .foot .cols{grid-template-columns:1fr 1fr;gap:40px 32px}
+  }
+  @media (max-width:560px){
+    .foot .cols{grid-template-columns:1fr;gap:32px}
+  }
+
+  /* Placeholder banner for dev mode */
+  .placeholder-banner{
+    background:var(--cream-soft);
+    border-bottom:1px solid var(--line);
+    padding:10px 0;
+    font-size:13px;
+    color:var(--ink-3);
+    text-align:center;
+  }
+  .placeholder-banner strong{color:var(--daly-green);font-weight:600}
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important;animation:none !important}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<div class="placeholder-banner">
+  <span><strong>Refreshed homepage · preview</strong> · Your logo and palette, new typography and voice · Photography slots clearly labeled · <strong>Schedule Now</strong> wired to #final-cta</span>
+</div>
+
+<!-- Utility bar -->
+<div class="utility">
+  <div class="container">
+    <div class="left">
+      <span>3814 Rural Retreat Rd, Suite 101 · Burlington, NC 27215</span>
+    </div>
+    <div class="right">
+      <a href="tel:+13368914917">(336) 891-4917</a>
+      <span class="dot"></span>
+      <a href="mailto:hello@dalyorthodontics.com">Email the office</a>
+    </div>
+  </div>
+</div>
+
+<!-- Primary nav -->
+<nav class="nav" aria-label="Primary">
+  <div class="container">
+    <a href="#" class="logo" aria-label="Daly Orthodontics — home">
+      <span class="mark" aria-hidden="true">D</span>
+      <span class="wordmark">
+        <span class="name">Daly</span>
+        <span class="sub">Orthodontics</span>
+      </span>
+    </a>
+    <ul class="nav-links" role="list">
+      <li><a href="#services" class="active">Treatments</a></li>
+      <li><a href="#approach">Our approach</a></li>
+      <li><a href="#doctor">Meet Dr. Daly</a></li>
+      <li><a href="#process">New patients</a></li>
+      <li><a href="#faq">FAQs</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="tel:+13368914917" class="btn btn-secondary" style="color:var(--cream);border-color:rgba(242,234,219,0.3)">(336) 891-4917</a>
+      <a href="#final-cta" class="btn btn-primary">Schedule a consult</a>
+    </div>
+    <button class="mobile-toggle" aria-label="Open menu">☰</button>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <span class="eyebrow">Burlington, North Carolina · Orthodontic specialists</span>
+    <h1>Braces and aligners — <em>and nothing else.</em></h1>
+    <p class="lede">Daly Orthodontics is a specialty practice serving Burlington and the surrounding area. We don't do general dentistry. We do one thing — and we've built our practice to do that one thing well.</p>
+    <div class="ctas">
+      <a href="#final-cta" class="btn btn-primary">Schedule a consultation <span class="arrow">→</span></a>
+      <a href="#services" class="btn btn-ghost">See our treatments</a>
+    </div>
+    <div class="trust">
+      <div class="tr-item"><strong>Specialist-owned.</strong> Not a franchise.</div>
+      <div class="tr-item"><strong>Burlington, NC.</strong> Serving the Triad since 2025.</div>
+      <div class="tr-item"><strong>Flexible financing.</strong> Most insurance accepted.</div>
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section class="section" id="services">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">What we treat</span>
+      <h2>Three paths to a straighter smile.</h2>
+      <p>Every patient starts with the same first visit. What happens next depends on your bite, your timeline, and what you're comfortable wearing.</p>
+    </div>
+    <div class="services">
+      <div class="service-card">
+        <div class="num">01 / Treatment</div>
+        <h3>Traditional braces</h3>
+        <p>Metal and ceramic braces for children, teens, and adults. Reliable, effective, and the right call for complex bite work where predictability matters most.</p>
+        <a href="#" class="link">Learn about braces →</a>
+      </div>
+      <div class="service-card">
+        <div class="num">02 / Treatment</div>
+        <h3>Clear aligners</h3>
+        <p>Invisalign and clear aligner therapy for adults and motivated teens. Removable, nearly invisible, and designed for your lifestyle — not the other way around.</p>
+        <a href="#" class="link">Learn about aligners →</a>
+      </div>
+      <div class="service-card">
+        <div class="num">03 / Treatment</div>
+        <h3>Early-intervention care</h3>
+        <p>Phase-one orthodontics for children ages 7 to 10. Small adjustments now can prevent bigger problems — and bigger treatment plans — down the road.</p>
+        <a href="#" class="link">Learn about early care →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Orthodontics Only differentiator -->
+<section class="only" id="approach">
+  <div class="container">
+    <div class="only-grid">
+      <div>
+        <span class="eyebrow">Our approach</span>
+        <h2>Orthodontics only. On purpose.</h2>
+        <p>Most practices you'll find nearby are general dentists who also offer orthodontics — or orthodontic chains with a different doctor every visit. We're neither.</p>
+        <p>Daly Orthodontics is a specialist practice, owned and run by Dr. Daly. When you come in for a consultation, you're seeing the person who will actually treat you — every appointment, for the whole course of care.</p>
+      </div>
+      <div class="compare">
+        <div class="compare-row">
+          <div class="x">
+            <div class="compare-head">Most "dental + ortho" practices</div>
+            <div><strong>Fill-ins, crowns, cleanings, extractions</strong> — orthodontics is a sideline.</div>
+          </div>
+          <div class="check">
+            <div class="compare-head">Daly Orthodontics</div>
+            <div><strong>Braces and aligners only.</strong> The only thing we're specialists in.</div>
+          </div>
+        </div>
+        <div class="compare-row">
+          <div class="x">
+            <div class="compare-head">National chain clinics</div>
+            <div><strong>A different provider most visits.</strong> You're a case number.</div>
+          </div>
+          <div class="check">
+            <div class="compare-head">Daly Orthodontics</div>
+            <div><strong>Dr. Daly, every visit.</strong> One doctor, your whole treatment.</div>
+          </div>
+        </div>
+        <div class="compare-row">
+          <div class="x">
+            <div class="compare-head">Hospital-style offices</div>
+            <div><strong>Clinical, transactional, rushed.</strong> In and out, next.</div>
+          </div>
+          <div class="check">
+            <div class="compare-head">Daly Orthodontics</div>
+            <div><strong>Locally owned in Burlington.</strong> We take the time it takes.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Doctor intro -->
+<section class="section on-cream" id="doctor">
+  <div class="container">
+    <div class="doctor">
+      <div class="photo-frame">
+        <div class="ph-label">
+          <strong>Photography placeholder</strong>
+          Dr. Daly, in practice<br>
+          4:5 editorial portrait · cream natural light
+        </div>
+      </div>
+      <div>
+        <span class="eyebrow">Meet Dr. Daly</span>
+        <h2>A specialist practice, locally owned.</h2>
+        <p>Dr. Daly completed her orthodontic specialty training after dental school, which means she spent two extra years of postgraduate study focused on nothing but braces, aligners, and bite correction. That's the difference between a general dentist who offers orthodontics and an orthodontist.</p>
+        <div class="pull">
+          "I only wanted to do one thing. So I only learned to do one thing — and I wanted patients to feel that from the moment they walked in."
+        </div>
+        <p><strong style="color:var(--daly-green)">Board-certified specialist.</strong> Member of the American Association of Orthodontists. Practicing in Burlington since 2025.</p>
+        <a href="#" class="btn btn-secondary" style="margin-top:16px">Read Dr. Daly's full bio <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Process steps -->
+<section class="section" id="process">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">What happens next</span>
+      <h2>Four steps from first call to last appointment.</h2>
+      <p>Every patient follows the same path. No surprises, no upsells, and a clear cost conversation before we start.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <h4>Schedule a consult</h4>
+        <p>Book online or call us. The first consultation is complimentary and takes about 45 minutes.</p>
+      </div>
+      <div class="step">
+        <h4>Meet Dr. Daly</h4>
+        <p>We'll take photos and scans, review your bite, and talk through the two or three treatment options that actually make sense for you.</p>
+      </div>
+      <div class="step">
+        <h4>Pick a plan</h4>
+        <p>You'll get a clear, written treatment plan with a fixed cost, a monthly payment option, and an insurance estimate — before you decide anything.</p>
+      </div>
+      <div class="step">
+        <h4>Start treatment</h4>
+        <p>Most patients can start within two weeks of their consultation. Checkups are every 6–10 weeks with Dr. Daly — no rotating providers.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonial -->
+<section class="testimonial-band">
+  <div class="container">
+    <div class="testimonial">
+      <div class="stars" aria-label="Five out of five stars">★★★★★</div>
+      <blockquote>
+        "Dr. Daly explained exactly what was going to happen, what it would cost, and what it wouldn't. No hidden fees, no upsells. I saw the same doctor every single visit. That's rare now."
+      </blockquote>
+      <div class="cite">
+        <strong>Rachel M.</strong> · Invisalign patient · Burlington
+        <div style="font-size:12px;color:var(--ink-3);margin-top:6px;letter-spacing:0.06em">Review placeholder — replace with real Google review</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq">
+  <div class="container">
+    <div class="section-head left">
+      <span class="eyebrow">Questions we hear every week</span>
+      <h2>Start here.</h2>
+    </div>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <h4>Do you take my insurance?</h4>
+        <p>We accept most major dental insurance plans with orthodontic coverage. Bring your card to the consult and we'll run the benefits for you on the spot — no guessing.</p>
+      </div>
+      <div class="faq-item">
+        <h4>How much do braces or aligners cost?</h4>
+        <p>It depends on the complexity of your case. We'll give you a fixed, all-in price in writing at the consult, with monthly payment options. You'll never get a bill for something we didn't quote.</p>
+      </div>
+      <div class="faq-item">
+        <h4>My child is seven. Is that too young?</h4>
+        <p>Seven is actually the age the American Association of Orthodontists recommends for a first evaluation. Most kids don't need treatment yet, but a quick check tells us whether early intervention would save you money and time later.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Do you do cleanings, fillings, or extractions?</h4>
+        <p>No. We're an orthodontics-only specialty practice. If your treatment plan requires a dental procedure (like an extraction), we'll coordinate with your regular dentist.</p>
+      </div>
+      <div class="faq-item">
+        <h4>How long will treatment take?</h4>
+        <p>Most adult aligner cases run 6–18 months. Traditional braces average 18–24 months. Your exact timeline depends on your bite — Dr. Daly will give you a real estimate at your consult.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Can I come for a second opinion?</h4>
+        <p>Please do. The consultation is complimentary whether you treat with us or not. Bring records from your current provider and we'll tell you honestly what we'd do differently, if anything.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section class="final-cta" id="final-cta">
+  <div class="container">
+    <div class="inner">
+      <span class="eyebrow">Ready when you are</span>
+      <h2>Start with a complimentary consultation.</h2>
+      <p>Forty-five minutes with Dr. Daly, a clear treatment plan, and a fixed price in writing — no sales pressure, no commitment. Just the information you need to decide.</p>
+      <div class="ctas">
+        <a href="#" class="btn btn-primary">Schedule online <span class="arrow">→</span></a>
+        <a href="tel:+13368914917" class="btn btn-ghost">Call (336) 891-4917</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="foot">
+  <div class="container">
+    <div class="cols">
+      <div class="brand-col">
+        <a href="#" class="logo" aria-label="Daly Orthodontics — home">
+          <span class="mark" aria-hidden="true">D</span>
+          <span class="wordmark">
+            <span class="name">Daly</span>
+            <span class="sub">Orthodontics</span>
+          </span>
+        </a>
+        <p>Specialty orthodontic care in Burlington, North Carolina. Braces, clear aligners, and confident smiles — that's all we do.</p>
+        <div class="social" aria-label="Social links">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="Facebook">FB</a>
+          <a href="#" aria-label="Google">G</a>
+        </div>
+      </div>
+      <div>
+        <h5>Treatments</h5>
+        <ul>
+          <li><a href="#">Traditional braces</a></li>
+          <li><a href="#">Clear aligners</a></li>
+          <li><a href="#">Early-intervention care</a></li>
+          <li><a href="#">Retainers</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Practice</h5>
+        <ul>
+          <li><a href="#">Meet Dr. Daly</a></li>
+          <li><a href="#">Our approach</a></li>
+          <li><a href="#">New patients</a></li>
+          <li><a href="#">Financing &amp; insurance</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Visit</h5>
+        <ul>
+          <li>3814 Rural Retreat Rd</li>
+          <li>Suite 101</li>
+          <li>Burlington, NC 27215</li>
+          <li><a href="tel:+13368914917">(336) 891-4917</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="bottom">
+      <span>© 2026 Daly Orthodontics. All rights reserved.</span>
+      <span>
+        <a href="#" style="margin-right:20px">Privacy</a>
+        <a href="#" style="margin-right:20px">Accessibility</a>
+        <a href="#">HIPAA</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

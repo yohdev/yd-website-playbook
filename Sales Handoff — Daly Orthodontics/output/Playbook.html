@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Daly Orthodontics — ProSites Migration & AI-Assisted Refresh Playbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --daly-green:#1C3A27;
+    --daly-green-deep:#122619;
+    --daly-gold:#C9A633;
+    --daly-gold-deep:#A8871F;
+    --daly-gold-soft:#E4CB73;
+    --obsidian:#0B0B0B;
+    --ink:#1A1A1A;
+    --ink-2:#3A3A3A;
+    --ink-3:#6B6B6B;
+    --line:#E4DECB;
+    --cream:#F2EADB;
+    --cream-soft:#F7F1E4;
+    --paper:#FFFFFF;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--paper);color:var(--ink);
+    font-family:"Inter",system-ui,sans-serif;font-size:17px;line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4,h5{font-family:"Fraunces",Georgia,serif;font-weight:500;letter-spacing:-0.015em;margin:0;color:var(--ink)}
+  p{margin:0 0 1em 0;color:var(--ink-2);max-width:68ch}
+  a{color:var(--daly-green);text-decoration:none;border-bottom:1px solid var(--daly-gold)}
+  a:hover{color:var(--daly-gold-deep)}
+  code,.mono{font-family:ui-monospace,monospace;font-size:14px;background:var(--cream-soft);padding:2px 8px;border-radius:4px;color:var(--daly-green-deep);border:1px solid var(--line)}
+  .container{max-width:920px;margin:0 auto;padding:0 48px}
+  @media (max-width:720px){.container{padding:0 20px}}
+
+  /* Cover */
+  .cover{
+    background:var(--daly-green);
+    color:var(--cream);
+    padding:120px 0 96px;
+    position:relative;overflow:hidden;
+    border-bottom:4px solid var(--daly-gold);
+  }
+  .cover:before{
+    content:"";
+    position:absolute;
+    top:-30%;right:-10%;width:60%;height:140%;
+    background:radial-gradient(ellipse at center, rgba(201,166,51,0.12) 0%, transparent 60%);
+    pointer-events:none;
+  }
+  .cover .eyebrow{
+    font-family:"Inter",sans-serif;font-size:12px;font-weight:500;letter-spacing:0.16em;
+    text-transform:uppercase;color:var(--daly-gold-soft);margin-bottom:24px;display:inline-block;
+  }
+  .cover h1{
+    color:var(--cream);font-size:76px;line-height:1.02;font-weight:500;
+    letter-spacing:-0.03em;margin-bottom:24px;max-width:18ch;
+  }
+  .cover h1 em{font-style:italic;color:var(--daly-gold-soft);font-weight:400}
+  .cover .lede{
+    font-family:"Inter",sans-serif;font-size:20px;color:rgba(242,234,219,0.85);
+    max-width:56ch;margin:0 0 56px 0;line-height:1.55;
+  }
+  .cover .meta{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:32px;
+    padding-top:40px;border-top:1px solid rgba(242,234,219,0.2);
+    max-width:760px;
+  }
+  .cover .meta-item{font-size:14px;color:rgba(242,234,219,0.72)}
+  .cover .meta-item strong{
+    display:block;color:var(--daly-gold-soft);font-weight:600;
+    font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
+    margin-bottom:6px;font-family:"Inter",sans-serif;
+  }
+  @media (max-width:720px){
+    .cover{padding:80px 0 64px}
+    .cover h1{font-size:42px}
+    .cover .meta{grid-template-columns:1fr 1fr;gap:24px}
+  }
+
+  /* TOC */
+  .toc{
+    background:var(--cream-soft);border:1px solid var(--line);border-radius:12px;
+    padding:32px 40px;margin:64px auto;max-width:920px;
+  }
+  .toc h3{
+    font-family:"Inter",sans-serif;font-size:12px;font-weight:600;
+    letter-spacing:0.14em;text-transform:uppercase;
+    color:var(--daly-gold-deep);margin-bottom:20px;
+  }
+  .toc ol{margin:0;padding:0;list-style:none}
+  .toc li{padding:8px 0;border-bottom:1px dashed var(--line)}
+  .toc li:last-child{border-bottom:none}
+  .toc a{
+    display:flex;justify-content:space-between;align-items:baseline;gap:16px;
+    font-family:"Inter",sans-serif;font-size:16px;font-weight:500;
+    color:var(--ink);border:none;
+  }
+  .toc a:hover{color:var(--daly-green)}
+  .toc .num{color:var(--daly-gold-deep);font-family:"Fraunces",serif;font-style:italic;font-weight:500;font-size:15px}
+  .toc .page{color:var(--ink-3);font-family:ui-monospace,monospace;font-size:13px}
+
+  /* Section */
+  section.block{padding:80px 0;border-bottom:1px solid var(--line)}
+  section.block:last-child{border-bottom:none}
+  .phase-head{margin-bottom:48px}
+  .phase-label{
+    font-family:"Fraunces",serif;font-size:14px;font-style:italic;
+    color:var(--daly-gold-deep);letter-spacing:0.04em;
+    display:block;margin-bottom:8px;font-weight:500;
+  }
+  section.block h2{font-size:48px;line-height:1.08;margin-bottom:16px;letter-spacing:-0.02em}
+  section.block .summary{
+    font-size:20px;color:var(--ink-2);max-width:56ch;line-height:1.55;
+    font-family:"Inter",sans-serif;
+  }
+  h3.sub{font-size:24px;color:var(--daly-green);margin:48px 0 16px;font-weight:600}
+  h4.sub{font-size:19px;color:var(--daly-green);margin:32px 0 12px;font-weight:600}
+
+  /* Two-column fact list */
+  .facts{display:grid;grid-template-columns:200px 1fr;gap:12px 32px;margin:24px 0 0}
+  .facts dt{
+    font-family:"Inter",sans-serif;font-size:13px;font-weight:600;
+    letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--daly-gold-deep);
+    padding-top:2px;
+  }
+  .facts dd{margin:0;color:var(--ink-2)}
+  @media (max-width:720px){.facts{grid-template-columns:1fr;gap:4px 0}.facts dd{margin-bottom:16px}}
+
+  /* Deliverable callout */
+  .callout{
+    background:var(--cream-soft);border:1px solid var(--line);border-left:4px solid var(--daly-gold);
+    padding:24px 32px;border-radius:8px;margin:32px 0;
+  }
+  .callout .label{
+    font-family:"Inter",sans-serif;font-size:11px;font-weight:600;letter-spacing:0.14em;
+    text-transform:uppercase;color:var(--daly-gold-deep);
+    margin-bottom:8px;display:block;
+  }
+  .callout p{margin:0;color:var(--ink)}
+
+  .callout-green{
+    background:var(--daly-green);border:none;border-radius:12px;
+    padding:32px 40px;color:var(--cream);margin:40px 0;
+  }
+  .callout-green .label{color:var(--daly-gold-soft)}
+  .callout-green p,.callout-green li{color:rgba(242,234,219,0.88)}
+  .callout-green strong{color:var(--cream)}
+  .callout-green h4{color:var(--cream);margin:0 0 8px}
+
+  /* The three pillars block — what's included */
+  .pillars{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin:32px 0;
+  }
+  .pillar{
+    background:var(--paper);border:1px solid var(--line);border-radius:12px;
+    padding:32px 28px;transition:all 200ms;
+  }
+  .pillar:hover{border-color:var(--daly-gold);transform:translateY(-2px);box-shadow:0 4px 16px rgba(11,11,11,0.04)}
+  .pillar .tag{
+    font-family:"Fraunces",serif;font-size:14px;font-style:italic;font-weight:500;
+    color:var(--daly-gold-deep);letter-spacing:0.04em;margin-bottom:12px;display:block;
+  }
+  .pillar h4{font-size:22px;color:var(--daly-green);margin:0 0 12px;font-weight:600;line-height:1.2}
+  .pillar p{font-size:15px;color:var(--ink-2);margin:0;line-height:1.55}
+  @media (max-width:900px){.pillars{grid-template-columns:1fr;gap:16px}}
+
+  /* Phase grid */
+  .phase-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin:24px 0;
+  }
+  .phase-card{
+    background:var(--paper);border:1px solid var(--line);border-radius:12px;
+    padding:28px 28px 32px;transition:all 200ms;
+  }
+  .phase-card:hover{border-color:var(--daly-gold);transform:translateY(-2px)}
+  .phase-card .num{
+    font-family:"Fraunces",serif;font-size:36px;font-style:italic;font-weight:400;
+    color:var(--daly-gold);line-height:1;margin-bottom:16px;display:block;
+  }
+  .phase-card h4{font-size:20px;color:var(--daly-green);margin:0 0 8px;font-weight:600}
+  .phase-card p{font-size:14px;color:var(--ink-2);margin:0;line-height:1.55}
+  @media (max-width:900px){.phase-grid{grid-template-columns:1fr;gap:16px}}
+
+  /* Timeline */
+  .timeline{
+    position:relative;margin:48px 0;padding-left:32px;
+    border-left:2px solid var(--line);
+  }
+  .timeline-row{position:relative;padding-bottom:40px}
+  .timeline-row:last-child{padding-bottom:0}
+  .timeline-row:before{
+    content:"";position:absolute;left:-40px;top:6px;
+    width:12px;height:12px;border-radius:50%;
+    background:var(--daly-gold);border:3px solid var(--paper);
+    box-shadow:0 0 0 1px var(--daly-gold);
+  }
+  .timeline-row .when{
+    font-family:"Inter",sans-serif;font-size:12px;font-weight:600;letter-spacing:0.12em;
+    text-transform:uppercase;color:var(--daly-gold-deep);margin-bottom:4px;
+  }
+  .timeline-row h4{font-size:20px;color:var(--daly-green);margin:0 0 8px;font-weight:600}
+  .timeline-row p{margin:0;color:var(--ink-2);font-size:16px}
+
+  /* Metric tile */
+  .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:24px 0}
+  .metric{
+    background:var(--cream-soft);border:1px solid var(--line);border-radius:12px;
+    padding:24px;
+  }
+  .metric .val{
+    font-family:"Fraunces",serif;font-size:36px;font-weight:500;line-height:1.05;
+    color:var(--daly-green);margin:0 0 8px;letter-spacing:-0.02em;
+  }
+  .metric .lbl{
+    font-family:"Inter",sans-serif;font-size:13px;color:var(--ink-2);
+    line-height:1.45;
+  }
+  @media (max-width:900px){.metrics{grid-template-columns:1fr 1fr}}
+
+  /* File tree */
+  .tree{
+    background:var(--obsidian);color:rgba(242,234,219,0.88);
+    border-radius:12px;padding:28px 32px;font-family:ui-monospace,monospace;
+    font-size:13px;line-height:1.7;margin:24px 0;white-space:pre;overflow-x:auto;
+  }
+  .tree .c{color:rgba(242,234,219,0.45);font-style:italic}
+  .tree .g{color:var(--daly-gold-soft)}
+
+  /* Pull quote */
+  blockquote.pull{
+    font-family:"Fraunces",serif;font-size:28px;line-height:1.35;font-weight:400;
+    font-style:italic;color:var(--daly-green);
+    padding-left:24px;border-left:3px solid var(--daly-gold);
+    margin:40px 0;letter-spacing:-0.01em;
+  }
+  blockquote.pull cite{
+    display:block;margin-top:16px;font-family:"Inter",sans-serif;font-size:13px;
+    font-style:normal;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--ink-3);
+  }
+
+  /* Scope lists */
+  .scope-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:32px 0}
+  .scope-col{
+    background:var(--paper);border:1px solid var(--line);border-radius:12px;
+    padding:28px 32px;
+  }
+  .scope-col.in{border-left:3px solid var(--success, #2F6B3E)}
+  .scope-col.out{border-left:3px solid var(--ink-3);background:var(--cream-soft)}
+  .scope-col h5{
+    font-family:"Inter",sans-serif;font-size:11px;font-weight:700;letter-spacing:0.14em;
+    text-transform:uppercase;margin:0 0 16px;color:var(--daly-gold-deep);
+  }
+  .scope-col.out h5{color:var(--ink-3)}
+  .scope-col ul{margin:0;padding-left:20px;color:var(--ink-2)}
+  .scope-col li{margin-bottom:8px;font-size:15px}
+  .scope-col ul li::marker{color:var(--daly-gold)}
+  .scope-col.out ul li::marker{color:var(--ink-3)}
+  @media (max-width:900px){.scope-grid{grid-template-columns:1fr}}
+
+  /* List style */
+  ul.clean,ol.clean{margin:16px 0 16px 0;padding-left:24px;color:var(--ink-2)}
+  ul.clean li,ol.clean li{margin-bottom:8px}
+  ul.clean li::marker{color:var(--daly-gold)}
+
+  /* Footer */
+  .foot{
+    background:var(--obsidian);color:var(--cream-soft);
+    padding:64px 0 32px;font-size:14px;margin-top:64px;
+  }
+  .foot h5{
+    font-family:"Inter",sans-serif;font-size:11px;font-weight:600;
+    letter-spacing:0.14em;text-transform:uppercase;color:var(--daly-gold);
+    margin:0 0 16px;
+  }
+  .foot p{color:rgba(242,234,219,0.7);margin:0 0 8px}
+  .foot .signoff{
+    display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;
+    padding-top:32px;margin-top:40px;border-top:1px solid rgba(242,234,219,0.12);
+    font-size:12px;color:rgba(242,234,219,0.5);
+  }
+  .foot a{color:var(--daly-gold);border:none}
+
+  /* Print */
+  @media print{
+    .cover{background:var(--paper);color:var(--ink);page-break-after:always}
+    .cover h1,.cover .lede,.cover .eyebrow,.cover .meta strong,.cover .meta-item{color:var(--ink)}
+    .cover:before{display:none}
+    section.block{page-break-inside:avoid}
+    .tree{background:var(--cream-soft);color:var(--ink);border:1px solid var(--line)}
+    .foot{display:none}
+    a{color:var(--ink);border:none;text-decoration:underline}
+  }
+</style>
+</head>
+<body>
+
+<!-- Logo Header -->
+<div style="background:#FFFFFF;padding:20px 0;border-bottom:1px solid #E4DECB">
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between">
+    <svg viewBox="0 0 400 100" width="200" height="50" xmlns="http://www.w3.org/2000/svg" aria-label="Daly Orthodontics">
+      <!-- D Mark with circle -->
+      <g>
+        <!-- Circle/arc around D -->
+        <path d="M 10 50 Q 10 10, 50 10 Q 70 10, 70 30 Q 70 70, 50 70 Q 10 70, 10 50" 
+              stroke="#C9A633" stroke-width="2.5" fill="none" opacity="0.9"/>
+        <!-- Large D -->
+        <text x="25" y="55" font-family="Fraunces, serif" font-size="42" font-weight="300" fill="#C9A633">D</text>
+      </g>
+      <!-- DALY text -->
+      <text x="90" y="45" font-family="Fraunces, serif" font-size="36" font-weight="400" letter-spacing="3" fill="#C9A633">DALY</text>
+      <!-- Orthodontics text -->
+      <text x="90" y="70" font-family="Inter, sans-serif" font-size="13" font-weight="400" letter-spacing="2.5" fill="#C9A633">Orthodontics</text>
+    </svg>
+    <span style="color:#6B6B6B;font-size:14px">ProSites Migration Playbook</span>
+  </div>
+</div>
+
+<header class="cover">
+  <div class="container">
+    <span class="eyebrow">ProSites → WordPress Migration · AI-Assisted Refresh</span>
+    <h1>Get off ProSites. <em>Own your website.</em></h1>
+    <p class="lede">AI-Assisted Lift & Shift: We migrate your full site from ProSites to WordPress with SEO preservation, audit and clean up harmful blog content, fix mobile navigation, and apply a modern refresh — all before your June 2026 renewal. $5,500 total investment.</p>
+    <div class="meta">
+      <div class="meta-item"><strong>Client</strong>Daly Orthodontics<br>Burlington, NC</div>
+      <div class="meta-item"><strong>Partner</strong>YohDev<br>AI-Assisted Migration</div>
+      <div class="meta-item"><strong>Investment</strong>$5,500<br>Two installments</div>
+      <div class="meta-item"><strong>Deadline</strong>June 2026<br>Before ProSites renewal</div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <nav class="toc" aria-label="Contents">
+    <h3>Contents</h3>
+    <ol>
+      <li><a href="#overview"><span><span class="num">01.</span> Executive Summary</span><span class="page">The migration plan</span></a></li>
+      <li><a href="#scope"><span><span class="num">02.</span> Phase 1: AI-Assisted Lift & Shift</span><span class="page">What's included for $5,500</span></a></li>
+      <li><a href="#why"><span><span class="num">03.</span> The ProSites Problem</span><span class="page">Why you need to leave</span></a></li>
+      <li><a href="#phases"><span><span class="num">04.</span> How we'll work</span><span class="page">Six phases, one review cadence</span></a></li>
+      <li><a href="#timeline"><span><span class="num">05.</span> Timeline</span><span class="page">Week by week</span></a></li>
+      <li><a href="#deliverables"><span><span class="num">06.</span> What you'll own when we're done</span><span class="page">The final package</span></a></li>
+      <li><a href="#success"><span><span class="num">07.</span> How we'll know it worked</span><span class="page">Concrete success markers</span></a></li>
+      <li><a href="#together"><span><span class="num">08.</span> Working together</span><span class="page">Who does what</span></a></li>
+      <li><a href="#next"><span><span class="num">09.</span> What happens next</span><span class="page">After this call</span></a></li>
+    </ol>
+  </nav>
+
+  <section class="block" id="overview">
+    <div class="phase-head">
+      <span class="phase-label">Section 01</span>
+      <h2>Executive Summary.</h2>
+      <p class="summary">ProSites owns your website. Every change costs extra, harmful blog content drives away patients, and the mobile experience is broken. Our AI-Assisted Lift & Shift migrates your full site to WordPress with SEO preservation, removes problematic content, fixes mobile navigation, and delivers a refreshed design — all before June 2026. You own everything, no long-term contracts.</p>
+    </div>
+
+    <blockquote class="pull">
+      "ProSites is holding us hostage. We can't update our own site, the blog is sending away patients, and mobile is a disaster. We need out before June."
+      <cite>— Discovery Analysis, April 2026</cite>
+    </blockquote>
+
+    <p>That sentence is the reason this project exists. Everything that follows is how we deliver on it — in one engagement, before the deadline, without a second round of invoices later.</p>
+  </section>
+
+  <section class="block" id="scope">
+    <div class="phase-head">
+      <span class="phase-label">Section 02</span>
+      <h2>Phase 1: AI-Assisted Lift & Shift — $5,500</h2>
+      <p class="summary">One focused engagement to escape ProSites. No long-term commitment, no auto-renewal. Every platform and login stays in your name from day one. When we're done, you can walk away with everything — or continue with optional monthly support.</p>
+    </div>
+
+    <div class="pillars">
+      <div class="pillar">
+        <span class="tag">Deliverable 01</span>
+        <h4>ProSites → WordPress Migration</h4>
+        <p>One-for-one page and URL migration so Google sees the same site. Native WordPress block builder only — no third-party page builder lock-in. All proprietary practice photos exported and transferred to your ownership. Complete control from day one.</p>
+      </div>
+      <div class="pillar">
+        <span class="tag">Deliverable 02</span>
+        <h4>AI-Assisted Design Refresh</h4>
+        <p>Modernize page layouts using AI-assisted design — same content, sharper presentation. Clean up mobile navigation so contact and booking are reachable in one tap. Remove third-party widget clutter from headers and side tabs. Your brand colors stay, everything else gets elevated.</p>
+      </div>
+      <div class="pillar">
+        <span class="tag">Deliverable 03</span>
+        <h4>Blog Audit & SEO Foundation</h4>
+        <p>Evaluate all ~70 posts since 2025 for migration, redirect, or removal. Flag and suppress posts discouraging orthodontic care or covering non-orthodontic specialties. Technical SEO audit fixes 127 current errors. Page speed recommendations included. Rankings preserved through proper 301 redirects.</p>
+      </div>
+    </div>
+
+    <h3 class="sub">What's in scope, explicitly</h3>
+    <div class="scope-grid">
+      <div class="scope-col in">
+        <h5>In scope</h5>
+        <ul>
+          <li>Full migration from ProSites to WordPress on hosting you own</li>
+          <li>Refreshed homepage with new typography, voice, and CTA hierarchy</li>
+          <li>Refreshed treatment pages, about page, new-patient flow, contact</li>
+          <li>Mobile navigation rebuild (fixing the crowded mobile nav flagged on the discovery call)</li>
+          <li>Pre-migration SEO scan and post-launch ranking verification</li>
+          <li>One-for-one URL preservation with 301 redirects where needed</li>
+          <li>Blog content triage: every post reviewed and marked keep / redirect / retire</li>
+          <li>WordPress block-based theme with a published style guide, so future edits stay on-brand</li>
+          <li>Bi-weekly screen-share review meetings throughout the project</li>
+          <li>Hosting, domain, and GitHub handoff documentation so you're never locked in again</li>
+        </ul>
+      </div>
+      <div class="scope-col out">
+        <h5>Not included in this engagement</h5>
+        <ul>
+          <li>Ongoing SEO content writing (can be added as a separate retainer if wanted)</li>
+          <li>New photography (current proprietary practice photos migrate; new shoot is a separate line item if you want one)</li>
+          <li>Google Ads campaign management</li>
+          <li>Logo redesign — your logo stays exactly as it is</li>
+          <li>Patient Hub replacement if it turns out to be ProSites-proprietary (we'll evaluate in Phase 01; see Section 09)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="why">
+    <div class="phase-head">
+      <span class="phase-label">Section 03</span>
+      <h2>The ProSites Problem — Why You Need to Leave.</h2>
+      <p class="summary">Your website isn't yours. The data shows 127 technical SEO errors, mobile performance score of 34/100, and blog content actively discouraging orthodontic patients. Every month you stay costs more money and lost patients.</p>
+    </div>
+
+    <h3 class="sub">Migrating without refreshing is half a project.</h3>
+    <p>A pure lift-and-shift puts the same site on a new platform. You'd own it, which solves the ownership problem — but the same mustard-yellow accents, the same stock hero image, the same mobile nav full of items, and the same generic blog content would all come with it. You'd be paying for infrastructure work without fixing the things that are actually costing you patients.</p>
+
+    <h3 class="sub">Refreshing without migrating is impossible before June.</h3>
+    <p>ProSites doesn't let you redesign inside their platform at the level we're proposing. A refresh requires the move. And the move requires the refresh to pay for itself.</p>
+
+    <h3 class="sub">Doing them separately is the expensive option.</h3>
+    <p>Two projects means two kickoffs, two discovery rounds, two setup fees, two rounds of review-cycle overhead, and — most importantly — a sequential timeline that puts the refresh somewhere in late summer. Bundling them means one price, one calendar, one project manager, one deadline.</p>
+
+    <div class="callout-green">
+      <span class="label">What this avoids</span>
+      <p><strong>Paying twice.</strong> On the discovery call you raised a concern about doing a migration now and then paying for a redesign later. This plan is the answer: you pay once, you get both, and you get them before the ProSites billing cycle you're trying to escape.</p>
+    </div>
+  </section>
+
+  <section class="block" id="phases">
+    <div class="phase-head">
+      <span class="phase-label">Section 04</span>
+      <h2>How we'll work.</h2>
+      <p class="summary">Six phases, each with a tangible deliverable and an approval gate. You never wonder what we're working on. You see work in progress at every review, not just finished work.</p>
+    </div>
+
+    <div class="phase-grid">
+      <div class="phase-card">
+        <span class="num">01</span>
+        <h4>Intake</h4>
+        <p>Lock the remaining decisions from the Friday call, confirm scope, baseline the SEO rankings, snapshot every page on the current site.</p>
+      </div>
+      <div class="phase-card">
+        <span class="num">02</span>
+        <h4>Research</h4>
+        <p>Full crawl of the existing site. Blog triage. Competitor scan. Audit of what to migrate, redirect, or retire.</p>
+      </div>
+      <div class="phase-card">
+        <span class="num">03</span>
+        <h4>System</h4>
+        <p>Finalize the design system — colors, typography, components. You sign off on the style guide before any page gets built.</p>
+      </div>
+      <div class="phase-card">
+        <span class="num">04</span>
+        <h4>Build</h4>
+        <p>Homepage, treatment pages, new-patient flow, contact, blog template. Native WordPress blocks. Mobile-first.</p>
+      </div>
+      <div class="phase-card">
+        <span class="num">05</span>
+        <h4>QA &amp; SEO</h4>
+        <p>Page-by-page comparison against the baseline. Redirect testing. Form testing. Analytics and tracking verified. Accessibility pass.</p>
+      </div>
+      <div class="phase-card">
+        <span class="num">06</span>
+        <h4>Launch</h4>
+        <p>DNS flip to the new site. ProSites cancellation the same day. Post-launch ranking verification over the following two weeks.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <span class="label">On approvals</span>
+      <p>We don't move to the next phase without your sign-off on the current one. That's not a formality — it's how we keep the timeline honest. Catching a direction change at Phase 3 costs a day; catching it at Phase 5 costs a week we don't have.</p>
+    </div>
+  </section>
+
+  <section class="block" id="timeline">
+    <div class="phase-head">
+      <span class="phase-label">Section 05</span>
+      <h2>Timeline — Six Weeks to Freedom.</h2>
+      <p class="summary">Six focused weeks from kickoff to ProSites cancellation. Built backward from your June 2026 renewal deadline. Each week has clear deliverables and approval gates.</p>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-row">
+        <div class="when">Sign-off · Before kickoff</div>
+        <h4>Statement of Work &amp; First Installment</h4>
+        <p>$5,500 total investment, paid in two installments. First payment kicks off the project. Every platform and login in your name from day one.</p>
+      </div>
+      <div class="timeline-row">
+        <div class="when">Week 1 · Discovery &amp; Setup</div>
+        <h4>SEO Baseline &amp; ProSites Access</h4>
+        <p>Pre-migration SEO scan to baseline existing rankings. Full site crawl and page inventory. Hosting path confirmed — client-owned from day one. ProSites access coordinated.</p>
+      </div>
+      <div class="timeline-row">
+        <div class="when">Weeks 2–3 · Content Migration</div>
+        <h4>Page Transfer &amp; Blog Audit</h4>
+        <p>One-for-one page and URL structure migration. Blog content audit — ~70 posts evaluated for migration, redirect, or removal. Flag and suppress posts discouraging orthodontic care. Image extraction and transfer.</p>
+      </div>
+      <div class="timeline-row">
+        <div class="when">Week 4 · AI-Assisted Design Refresh</div>
+        <h4>Modern Layouts &amp; Mobile Fix</h4>
+        <p>AI-assisted page layout updates — same content, sharper presentation. Mobile navigation cleanup so contact and booking are reachable in one tap. Remove third-party widget clutter.</p>
+      </div>
+      <div class="timeline-row">
+        <div class="when">Week 5 · Technical SEO</div>
+        <h4>301 Redirects &amp; Speed Optimization</h4>
+        <p>Technical SEO audit fixing 127 current errors. 301 redirects for changed URLs. XML sitemap submission. Search Console setup. Page speed optimization (current score: 34/100).</p>
+      </div>
+      <div class="timeline-row">
+        <div class="when">Week 6 · Launch &amp; Handoff</div>
+        <h4>DNS Switch · ProSites Cancelled</h4>
+        <p>DNS migration to new WordPress site. ProSites cancellation same day. Complete documentation and training. Baseline metrics report. Optional monthly maintenance available ($150/mo, no contract).</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <span class="label">June 2026 Deadline is Real</span>
+      <p>ProSites auto-renews in June. The sooner we sign, the more runway we have. Our team books in sprints, so timelines assume engagement confirmation 2–3 weeks ahead of start. No extensions, no excuses — we deliver before that billing cycle.</p>
+    </div>
+  </section>
+
+  <section class="block" id="deliverables">
+    <div class="phase-head">
+      <span class="phase-label">Section 06</span>
+      <h2>What you'll own when we're done.</h2>
+      <p class="summary">Every file, every login, every password. Nothing stays at YohDev. When launch is complete you can fire us and hire anyone else to pick up where we left off — and they won't have to guess how any of it works.</p>
+    </div>
+
+    <div class="tree"><span class="c">// Final handoff — delivered as a folder and a set of account transfers</span>
+
+daly-orthodontics-website/
+├── <span class="g">WordPress site</span>                <span class="c">// Live at your domain, on your hosting</span>
+├── <span class="g">Theme (block-based)</span>           <span class="c">// Your custom theme, styled to the style guide</span>
+├── <span class="g">Style Guide.html</span>              <span class="c">// The brand system in one file</span>
+├── <span class="g">Playbook.html</span>                 <span class="c">// This document, kept for your records</span>
+├── <span class="g">theme.json</span>                    <span class="c">// WordPress block-theme configuration</span>
+├── <span class="g">SEO baseline + verification report</span> <span class="c">// Pre- and post-launch rankings</span>
+├── <span class="g">Redirect map</span>                  <span class="c">// Every old URL, where it now points</span>
+├── <span class="g">Blog triage log</span>               <span class="c">// Every post, decision, reasoning</span>
+└── <span class="g">Handoff README</span>                <span class="c">// Hosting, domain, GitHub, analytics access</span>
+
+<span class="c">// Plus transferred account ownership:</span>
+· Domain registrar login
+· Hosting account login
+· GitHub repository with the theme code
+· Google Analytics access
+· Google Business Profile (confirmed, if currently delegated)</div>
+
+    <div class="callout">
+      <span class="label">Ownership is literal</span>
+      <p>The site lives on a domain you own, on hosting you control, with code in a repository you hold the login for. Any future changes are yours to make, or to hire anyone you want to make. No lock-in, no upcharges for adding a page, no tollbooth.</p>
+    </div>
+  </section>
+
+  <section class="block" id="success">
+    <div class="phase-head">
+      <span class="phase-label">Section 07</span>
+      <h2>How we'll know it worked.</h2>
+      <p class="summary">Four concrete markers. If we hit all four, the project was a success. If we miss any of them, that's on us.</p>
+    </div>
+
+    <div class="metrics">
+      <div class="metric">
+        <div class="val">Before June</div>
+        <div class="lbl">Site live on WordPress. ProSites subscription cancelled.</div>
+      </div>
+      <div class="metric">
+        <div class="val">0 lost</div>
+        <div class="lbl">Top-20 Google rankings dropped after migration.</div>
+      </div>
+      <div class="metric">
+        <div class="val">&lt;10s</div>
+        <div class="lbl">Time for a new mobile visitor to find a way to schedule.</div>
+      </div>
+      <div class="metric">
+        <div class="val">100%</div>
+        <div class="lbl">Your ownership of domain, content, code, and hosting.</div>
+      </div>
+    </div>
+
+    <h4 class="sub">Plus the soft one.</h4>
+    <p>You and Dr. Daly pull up the site on a phone, hand it to a friend who's never heard of the practice, and they say: <em>"Oh — they're an orthodontist in Burlington."</em> Within five seconds, unprompted. That's the bar.</p>
+  </section>
+
+  <section class="block" id="together">
+    <div class="phase-head">
+      <span class="phase-label">Section 08</span>
+      <h2>Working together.</h2>
+      <p class="summary">A short list. Getting clarity here prevents most of the friction that can happen on small-team projects.</p>
+    </div>
+
+    <h3 class="sub">What we'll do</h3>
+    <ul class="clean">
+      <li>Design, build, test, and launch the site end-to-end.</li>
+      <li>Host bi-weekly review meetings with screen shares. You see work in progress at every review.</li>
+      <li>Deliver the blog triage list and SEO baseline report for your sign-off.</li>
+      <li>Handle the DNS flip and the same-day ProSites cancellation.</li>
+      <li>Verify rankings for two weeks after launch and deliver a written post-launch report.</li>
+      <li>Hand over every login, document every decision, leave a clean exit path.</li>
+    </ul>
+
+    <h3 class="sub">What we'll need from you</h3>
+    <ul class="clean">
+      <li>Sign-off at each phase gate — usually within two to three business days of a review.</li>
+      <li>Access to existing accounts during migration: domain registrar, Google Business Profile, Google Analytics, Google Ads, ProSites admin.</li>
+      <li>A decision at Phase 02 on any borderline blog posts (keep, redirect, or retire).</li>
+      <li>Final copy review on the refreshed homepage and treatment pages — every word is yours to change.</li>
+      <li>The final yes on launch timing. We don't flip the site live until you say flip it.</li>
+    </ul>
+
+    <h3 class="sub">How we'll communicate</h3>
+    <dl class="facts">
+      <dt>Primary</dt><dd>Email — andrew@yohdev.com ↔ victordaniel16@gmail.com. One thread per topic.</dd>
+      <dt>Reviews</dt><dd>Bi-weekly, 45 minutes, screen share. Cameras on.</dd>
+      <dt>Response time</dt><dd>Within one business day on our side, usually same day for anything blocking.</dd>
+      <dt>Urgent</dt><dd>Direct text or call. No ticketing system, no support queue.</dd>
+    </dl>
+  </section>
+
+  <section class="block" id="next">
+    <div class="phase-head">
+      <span class="phase-label">Section 09</span>
+      <h2>What happens next.</h2>
+      <p class="summary">Concrete next steps in order.</p>
+    </div>
+
+    <ol class="clean">
+      <li><strong>We close today's open questions.</strong> Dr. Daly's preferred first name and title for the site, the <code>dailyorthodontics.com</code> vs. <code>dalyorthodontics.com</code> domain decision, the fate of the Patient Hub (migrate, replace, or retire), and your reaction to the homepage and style guide sitting alongside this document.</li>
+      <li><strong>You greenlight.</strong> The quote is a single fixed-price number for everything described in Section 02. No change orders unless you request new scope; if you do, we agree the price in writing before anyone touches anything.</li>
+      <li><strong>Kickoff on Monday.</strong> We schedule the first bi-weekly review for end of Week 2, and start Phase 01 (Intake) the same week you sign.</li>
+      <li><strong>Launch before June.</strong> You cancel ProSites the same day we go live. Next month you're not paying them — you're paying for your own hosting, at a fraction of the price, on infrastructure you own.</li>
+    </ol>
+
+    <div class="callout-green">
+      <span class="label">One ask before the call wraps</span>
+      <p>If you and Dr. Daly settled on any reference websites during your portfolio review, bring them — not for us to copy, but so we can point at specific elements and say <em>"this, but less of that."</em> Concrete reactions are faster than abstract adjectives, and we want to finalize direction at this call rather than after another round.</p>
+    </div>
+  </section>
+
+</div>
+
+<footer class="foot">
+  <div class="container">
+    <h5>Prepared by</h5>
+    <p>Andrew Hewitt · YohDev · <a href="mailto:andrew@yohdev.com">andrew@yohdev.com</a></p>
+    <div class="signoff">
+      <span>© 2026 YohDev. Prepared for Daly Orthodontics — confidential.</span>
+      <span>Version 1.0 · 2026-04-24</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
